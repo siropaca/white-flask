@@ -1,0 +1,24 @@
+{
+  "name": "white-flask",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal blog site with admin panel",
+  "scripts": {
+    "dev": "pnpm run --parallel dev",
+    "build": "pnpm run -r build",
+    "lint": "pnpm run -r lint",
+    "format": "pnpm run -r format",
+    "test": "pnpm run -r test"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "typescript": "^5.3.3",
+    "prettier": "^3.2.4",
+    "eslint": "^8.56.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.1"
+}
