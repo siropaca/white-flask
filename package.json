@@ -4,26 +4,29 @@
   "private": true,
   "description": "Personal blog site with admin panel",
   "scripts": {
-    "dev": "pnpm run --parallel dev",
     "build": "pnpm run -r build",
+    "dev": "pnpm run --parallel dev",
     "lint": "pnpm run -r lint",
     "lint:fix": "pnpm run -r lint:fix",
-    "test": "pnpm run -r test",
-    "type-check": "tsc --noEmit",
+    "pre-commit": "lefthook run pre-commit",
     "prepare": "lefthook install",
-    "pre-commit": "lefthook run pre-commit"
+    "sort": "sort-package-json 'package.json' 'apps/*/package.json'",
+    "sort:check": "sort-package-json --check 'package.json' 'apps/*/package.json'",
+    "test": "pnpm run -r test",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
     "@types/node": "22.15.30",
-    "typescript": "5.3.3",
     "eslint": "8.56.0",
-    "lefthook": "1.11.13"
+    "lefthook": "1.11.13",
+    "sort-package-json": "3.2.1",
+    "typescript": "5.3.3"
   },
+  "packageManager": "pnpm@10.11.1",
   "engines": {
     "node": ">=22.16.0",
     "pnpm": ">=10.11.1"
-  },
-  "packageManager": "pnpm@10.11.1"
+  }
 }
