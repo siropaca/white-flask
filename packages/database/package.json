@@ -10,8 +10,7 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "lint": "eslint src",
-    "format": "prettier --write ."
+    "lint": "eslint src"
   },
   "dependencies": {
     "@prisma/client": "5.8.1"
