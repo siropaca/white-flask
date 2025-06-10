@@ -1,6 +1,7 @@
 {
   "name": "@white-flask/blog",
   "version": "0.0.1",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite dev",
@@ -8,7 +9,8 @@
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "3.0.0",
@@ -19,6 +21,5 @@
     "tslib": "2.4.1",
     "typescript": "5.0.2",
     "vite": "5.0.3"
-  },
-  "type": "module"
+  }
 }
