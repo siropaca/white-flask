@@ -58,7 +58,7 @@ When working on specific apps, you can run commands from their directories:
 - **Frontend**: SvelteKit (blog) and Next.js (admin)
 - **Backend**: GraphQL with Pothos schema builder and GraphQL Yoga server
 - **Database**: PostgreSQL (via Docker) with Prisma ORM
-- **Node.js**: Version 22.16.0 (managed by mise)
+- **Node.js**: Version 24.2.0 (managed by mise)
 
 ### Development Workflow
 - Git hooks via Lefthook for pre-commit type checking
