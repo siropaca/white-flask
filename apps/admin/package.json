@@ -2,13 +2,7 @@
   "name": "@white-flask/admin",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "build": "next build",
-    "dev": "next dev",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "start": "next start"
-  },
+  "scripts": {},
   "dependencies": {},
   "devDependencies": {}
 }
