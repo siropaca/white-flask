@@ -14,7 +14,7 @@
     "sort": "sort-package-json 'package.json' 'apps/*/package.json'",
     "sort:check": "sort-package-json --check 'package.json' 'apps/*/package.json'",
     "test": "pnpm run -r test",
-    "type-check": "tsc --noEmit"
+    "type-check": "pnpm run -r type-check"
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.1",
