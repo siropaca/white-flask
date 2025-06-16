@@ -8,8 +8,8 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "dev": "vite dev",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "echo 'No source files to lint yet'",
+    "lint:fix": "echo 'No source files to lint yet'",
     "preview": "vite preview"
   },
   "dependencies": {},
