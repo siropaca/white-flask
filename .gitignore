@@ -18,10 +18,12 @@ build
 
 # IDE
 .vscode
-.idea
 *.swp
 *.swo
 *~
+.idea/*
+!/.idea/icon.png
+
 
 # OS
 .DS_Store
