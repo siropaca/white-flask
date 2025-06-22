@@ -2,7 +2,19 @@
   "name": "@white-flask/backend",
   "version": "1.0.0",
   "private": true,
-  "scripts": {},
-  "dependencies": {},
-  "devDependencies": {}
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@pothos/core": "4.7.0",
+    "graphql": "16.11.0",
+    "graphql-yoga": "5.13.5"
+  },
+  "devDependencies": {
+    "@types/node": "24.0.3",
+    "tsx": "4.20.3",
+    "typescript": "5.8.3"
+  }
 }
