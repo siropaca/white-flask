@@ -2,7 +2,17 @@
   "name": "@white-flask/admin",
   "version": "1.0.0",
   "private": true,
-  "scripts": {},
-  "dependencies": {},
-  "devDependencies": {}
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite dev",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "6.0.1",
+    "@sveltejs/kit": "2.22.0",
+    "@sveltejs/vite-plugin-svelte": "5.1.0",
+    "svelte": "5.34.7",
+    "vite": "6.3.5"
+  }
 }
