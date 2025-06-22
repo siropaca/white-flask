@@ -2,11 +2,6 @@
 
 This file provides guidance to Claude Code when working with the blog application.
 
-## Important Documentation
-
-Please refer to the following documentation for Next.js best practices with LLMs:
-- https://nextjs.org/docs
-
 ## Overview
 
 The blog application is built with Next.js and provides the public-facing blog interface.
