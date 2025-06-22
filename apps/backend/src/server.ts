@@ -11,5 +11,6 @@ const server = createServer(yoga)
 const port = 3003
 
 server.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.info(`GraphQL server is running on http://localhost:${port}/graphql`)
 })
