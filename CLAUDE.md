@@ -5,8 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 White Flask is a personal blog site project using a monorepo structure with pnpm workspaces. It consists of three applications:
-- `apps/blog` - Blog site frontend (SvelteKit)
-- `apps/admin` - Admin panel (Next.js)
+- `apps/blog` - Blog site frontend (Next.js)
+- `apps/admin` - Admin panel (SvelteKit)
 - `apps/backend` - GraphQL API (Pothos + GraphQL Yoga)
 
 ## Development Commands
@@ -43,9 +43,9 @@ docker-compose up -d
 
 ### Application-Specific Commands
 When working on specific apps, you can run commands from their directories:
-- `apps/admin`: Uses Next.js commands (dev, build, start)
+- `apps/admin`: Uses Vite/SvelteKit commands (dev, build, preview)
 - `apps/backend`: Uses tsx for development (`pnpm dev`), tsc for building
-- `apps/blog`: Uses Vite/SvelteKit commands with svelte-check for type checking
+- `apps/blog`: Uses Next.js commands (dev, build, start, lint)
 
 ## Architecture and Key Patterns
 
@@ -55,7 +55,7 @@ When working on specific apps, you can run commands from their directories:
 - Each app has its own `package.json` with specific dependencies
 
 ### Technology Stack
-- **Frontend**: SvelteKit (blog) and Next.js (admin)
+- **Frontend**: Next.js (blog) and SvelteKit (admin)
 - **Backend**: GraphQL with Pothos schema builder and GraphQL Yoga server
 - **Database**: PostgreSQL (via Docker) with Prisma ORM
 - **Node.js**: Version 24.2.0 (managed by mise)
@@ -64,3 +64,10 @@ When working on specific apps, you can run commands from their directories:
 - Git hooks via Lefthook for pre-commit type checking
 - Commitlint enforces Conventional Commits format
 - ESLint for code quality across all packages
+
+## Application-Specific Documentation
+
+Each application has its own CLAUDE.md file with detailed information:
+- `apps/admin/CLAUDE.md` - SvelteKit admin panel specifics
+- `apps/blog/CLAUDE.md` - Next.js blog site specifics
+- `apps/backend/CLAUDE.md` - GraphQL API specifics
