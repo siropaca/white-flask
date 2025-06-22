@@ -1,17 +1,8 @@
 {
   "name": "@white-flask/blog",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "vite build",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "dev": "vite dev",
-    "lint": "echo 'No source files to lint yet'",
-    "lint:fix": "echo 'No source files to lint yet'",
-    "preview": "vite preview"
-  },
+  "scripts": {},
   "dependencies": {},
   "devDependencies": {}
 }

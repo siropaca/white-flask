@@ -2,23 +2,7 @@
   "name": "@white-flask/admin",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "build": "tsc && vite build",
-    "dev": "vite --port 6001",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "preview": "vite preview --port 6001",
-    "type-check": "tsc --noEmit"
-  },
-  "dependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
-  },
-  "devDependencies": {
-    "@types/react": "19.1.8",
-    "@types/react-dom": "19.1.6",
-    "@vitejs/plugin-react": "4.5.2",
-    "typescript": "5.8.3",
-    "vite": "6.3.5"
-  }
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {}
 }
