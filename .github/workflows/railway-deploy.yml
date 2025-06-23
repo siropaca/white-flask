@@ -13,7 +13,6 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    container: ghcr.io/railwayapp/cli:latest
 
     steps:
       - name: Checkout
@@ -35,13 +34,25 @@ jobs:
         run: pnpm build
 
       - name: Deploy Blog
-        run: railway up --service blog --detach
-        continue-on-error: false
+        uses: docker://ghcr.io/railwayapp/cli:latest
+        with:
+          args: up --service blog --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
 
       - name: Deploy Admin
-        run: railway up --service admin --detach
-        continue-on-error: false
+        uses: docker://ghcr.io/railwayapp/cli:latest
+        with:
+          args: up --service admin --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
 
       - name: Deploy Backend
-        run: railway up --service backend --detach
-        continue-on-error: false
+        uses: docker://ghcr.io/railwayapp/cli:latest
+        with:
+          args: up --service backend --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
