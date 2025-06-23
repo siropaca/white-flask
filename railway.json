@@ -1,0 +1,61 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  },
+  "services": {
+    "blog": {
+      "source": {
+        "repo": "apps/blog"
+      },
+      "build": {
+        "buildCommand": "cd apps/blog && pnpm install && pnpm build",
+        "watchPatterns": [
+          "apps/blog/**"
+        ]
+      },
+      "deploy": {
+        "startCommand": "cd apps/blog && pnpm start",
+        "healthcheckPath": "/",
+        "healthcheckTimeout": 300
+      }
+    },
+    "admin": {
+      "source": {
+        "repo": "apps/admin"
+      },
+      "build": {
+        "buildCommand": "cd apps/admin && pnpm install && pnpm build",
+        "watchPatterns": [
+          "apps/admin/**"
+        ]
+      },
+      "deploy": {
+        "startCommand": "cd apps/admin && pnpm preview --host",
+        "healthcheckPath": "/",
+        "healthcheckTimeout": 300
+      }
+    },
+    "backend": {
+      "source": {
+        "repo": "apps/backend"
+      },
+      "build": {
+        "buildCommand": "cd apps/backend && pnpm install && pnpm build",
+        "watchPatterns": [
+          "apps/backend/**"
+        ]
+      },
+      "deploy": {
+        "startCommand": "cd apps/backend && pnpm start",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 300
+      }
+    }
+  }
+}

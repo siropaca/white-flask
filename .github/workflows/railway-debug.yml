@@ -1,0 +1,34 @@
+name: Railway Debug
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Check Token in Secrets
+        run: |
+          if [ -z "${{ secrets.RAILWAY_TOKEN }}" ]; then
+            echo "❌ RAILWAY_TOKEN is not set in GitHub Secrets"
+            exit 1
+          else
+            echo "✅ RAILWAY_TOKEN is set in GitHub Secrets"
+          fi
+      
+      - name: Test with Docker Container
+        uses: docker://ghcr.io/railwayapp/cli:latest
+        with:
+          args: railway version
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      
+      - name: Test whoami
+        uses: docker://ghcr.io/railwayapp/cli:latest
+        with:
+          args: railway whoami
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
