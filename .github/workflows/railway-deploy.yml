@@ -6,59 +6,24 @@ on:
       - main
   workflow_dispatch:
 
-env:
-  RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-  RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24.2.0'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build applications
-        run: pnpm build
-
+      
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+      
       - name: Deploy Blog
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/workspace \
-            -w /workspace \
-            -e RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }} \
-            -e RAILWAY_PROJECT_ID=${{ secrets.RAILWAY_PROJECT_ID }} \
-            ghcr.io/railwayapp/cli:latest \
-            railway up --service blog --detach
-
+        run: railway up --service blog --detach
+      
       - name: Deploy Admin
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/workspace \
-            -w /workspace \
-            -e RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }} \
-            -e RAILWAY_PROJECT_ID=${{ secrets.RAILWAY_PROJECT_ID }} \
-            ghcr.io/railwayapp/cli:latest \
-            railway up --service admin --detach
-
+        run: railway up --service admin --detach
+      
       - name: Deploy Backend
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/workspace \
-            -w /workspace \
-            -e RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }} \
-            -e RAILWAY_PROJECT_ID=${{ secrets.RAILWAY_PROJECT_ID }} \
-            ghcr.io/railwayapp/cli:latest \
-            railway up --service backend --detach
+        run: railway up --service backend --detach
