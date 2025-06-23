@@ -1,0 +1,12 @@
+[build]
+builder = "nixpacks"
+buildCommand = "cd ../.. && pnpm install --frozen-lockfile && cd apps/admin && pnpm build"
+
+[deploy]
+startCommand = "cd apps/admin && pnpm start"
+healthcheckPath = "/"
+healthcheckTimeout = 300
+restartPolicyType = "always"
+
+[[services]]
+name = "admin"
