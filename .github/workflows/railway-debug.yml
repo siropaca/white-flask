@@ -19,16 +19,38 @@ jobs:
             echo "✅ RAILWAY_TOKEN is set in GitHub Secrets"
           fi
       
-      - name: Test with Docker Container
-        uses: docker://ghcr.io/railwayapp/cli:latest
-        with:
-          args: railway version
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Install Railway CLI
+        run: |
+          curl -fsSL https://railway.app/install.sh | sh
+          echo "$HOME/.railway/bin" >> $GITHUB_PATH
       
-      - name: Test whoami
-        uses: docker://ghcr.io/railwayapp/cli:latest
-        with:
-          args: railway whoami
+      - name: Test Railway Version
+        run: railway version
+      
+      - name: Test Railway Whoami
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway whoami
+      
+      - name: List Railway Services
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          echo "=== Listing all services in the project ==="
+          railway service || echo "No services found or command failed"
+          
+      - name: Test Service Detection from Each Directory
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          echo "=== Testing from blog directory ==="
+          cd apps/blog
+          railway status || echo "Status command failed"
+          
+          echo -e "\n=== Testing from admin directory ==="
+          cd ../admin
+          railway status || echo "Status command failed"
+          
+          echo -e "\n=== Testing from backend directory ==="
+          cd ../backend
+          railway status || echo "Status command failed"
