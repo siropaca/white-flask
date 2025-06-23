@@ -37,16 +37,16 @@ jobs:
         run: npm install -g @railway/cli
 
       - name: Link Railway Project
-        run: railway link -p ${{ secrets.RAILWAY_PROJECT_ID }} --token ${{ secrets.RAILWAY_TOKEN }}
+        run: railway link --project ${{ secrets.RAILWAY_PROJECT_ID }}
 
       - name: Deploy Blog
-        run: railway up --service blog --detach --token ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --service blog --detach
         continue-on-error: false
 
       - name: Deploy Admin
-        run: railway up --service admin --detach --token ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --service admin --detach
         continue-on-error: false
 
       - name: Deploy Backend
-        run: railway up --service backend --detach --token ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --service backend --detach
         continue-on-error: false
