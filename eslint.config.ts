@@ -7,7 +7,7 @@ const config: ConfigArray = tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.mjs', '**/*.svelte'],
+    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.mjs'],
     plugins: {
       '@stylistic': stylistic
     },
@@ -55,6 +55,12 @@ const config: ConfigArray = tseslint.config(
     }
   },
   {
+    files: ['**/*.tsx'],
+    rules: {
+      '@typescript-eslint/explicit-module-boundary-types': 'off'
+    }
+  },
+  {
     files: ['**/*.test.ts', '**/*.spec.ts', '**/*.test.mjs'],
     languageOptions: {
       globals: {
@@ -84,7 +90,20 @@ const config: ConfigArray = tseslint.config(
     }
   },
   {
-    ignores: ['dist/**', 'node_modules/**', 'coverage/**', '*.config.js', '*.config.ts', '*.config.mts', '*.config.cts', '.next/**', '.svelte-kit/**']
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'coverage/**',
+      '*.config.js',
+      '*.config.ts',
+      '*.config.mts',
+      '*.config.cts',
+      '.next/**',
+      '.svelte-kit/**',
+      'apps/blog/.next/**',
+      'apps/admin/.svelte-kit/**',
+      '**/*.svelte'
+    ]
   }
 )
 
