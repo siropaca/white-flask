@@ -8,6 +8,8 @@ dist
 .next
 out
 build
+tsconfig.tsbuildinfo
+*.tsbuildinfo
 
 # Environment files
 .env
