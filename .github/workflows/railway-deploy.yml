@@ -34,25 +34,31 @@ jobs:
         run: pnpm build
 
       - name: Deploy Blog
-        uses: docker://ghcr.io/railwayapp/cli:latest
-        with:
-          args: up --service blog --detach
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            -e RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }} \
+            -e RAILWAY_PROJECT_ID=${{ secrets.RAILWAY_PROJECT_ID }} \
+            ghcr.io/railwayapp/cli:latest \
+            railway up --service blog --detach
 
       - name: Deploy Admin
-        uses: docker://ghcr.io/railwayapp/cli:latest
-        with:
-          args: up --service admin --detach
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            -e RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }} \
+            -e RAILWAY_PROJECT_ID=${{ secrets.RAILWAY_PROJECT_ID }} \
+            ghcr.io/railwayapp/cli:latest \
+            railway up --service admin --detach
 
       - name: Deploy Backend
-        uses: docker://ghcr.io/railwayapp/cli:latest
-        with:
-          args: up --service backend --detach
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            -e RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }} \
+            -e RAILWAY_PROJECT_ID=${{ secrets.RAILWAY_PROJECT_ID }} \
+            ghcr.io/railwayapp/cli:latest \
+            railway up --service backend --detach
