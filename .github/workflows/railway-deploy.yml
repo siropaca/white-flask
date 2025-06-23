@@ -26,4 +26,4 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           cd apps/${{ matrix.service }}
-          railway up --detach
+          railway up --service ${{ matrix.service }} --detach
