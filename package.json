@@ -13,6 +13,7 @@
     "prepare": "lefthook install",
     "sort": "sort-package-json 'package.json' 'apps/*/package.json'",
     "sort:check": "sort-package-json --check 'package.json' 'apps/*/package.json'",
+    "start": "pnpm run -r start",
     "test": "pnpm run -r test",
     "type-check": "pnpm run -r type-check"
   },
