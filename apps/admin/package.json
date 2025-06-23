@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build",
+    "build": "svelte-kit sync && vite build",
     "dev": "vite dev",
     "preview": "vite preview",
     "start": "serve build -p 3002"
