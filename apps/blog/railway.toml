@@ -1,9 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "npm install -g pnpm@10.12.1 && export PATH=$PATH:$(npm config get prefix)/bin && pnpm build"
-
-[build.env]
-NODE_VERSION = "24.2.0"
+buildCommand = "pnpm build"
 
 [deploy]
 startCommand = "pnpm start"
