@@ -8,7 +8,7 @@ const yoga = createYoga({
 
 const server = createServer(yoga)
 
-const port = 3003
+const port = Number(process.env.PORT) || 3003
 
 server.listen(port, () => {
   // eslint-disable-next-line no-console
