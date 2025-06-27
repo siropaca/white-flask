@@ -10,7 +10,6 @@
     "lint:fix": "eslint . --fix && pnpm run -r lint:fix",
     "ncu": "pnpm dlx npm-check-updates --workspaces",
     "pre-commit": "lefthook run pre-commit",
-    "prepare": "lefthook install",
     "sort": "sort-package-json 'package.json' 'apps/*/package.json'",
     "sort:check": "sort-package-json --check 'package.json' 'apps/*/package.json'",
     "start": "pnpm run -r start",
