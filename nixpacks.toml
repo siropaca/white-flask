@@ -1,9 +1,0 @@
-[phases.setup]
-nixPkgs = ['nodejs-24_x', 'pnpm']
-
-[phases.install]
-cmds = ['pnpm install --frozen-lockfile']
-
-[variables]
-NODE_VERSION = '24.2.0'
-PNPM_VERSION = '10.12.1'
