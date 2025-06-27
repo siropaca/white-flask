@@ -1,9 +1,9 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm build"
+buildCommand = "pnpm --filter blog build"
 
 [deploy]
-startCommand = "pnpm start"
+startCommand = "pnpm --filter blog start"
 healthcheckPath = "/"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"

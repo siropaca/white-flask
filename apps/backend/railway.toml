@@ -1,9 +1,9 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm build"
+buildCommand = "pnpm --filter backend build"
 
 [deploy]
-startCommand = "pnpm start"
+startCommand = "pnpm --filter backend start"
 healthcheckPath = "/graphql"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
