@@ -1,6 +1,9 @@
 [build]
 builder = "nixpacks"
-buildCommand = "corepack enable && pnpm build"
+buildCommand = "npm install -g pnpm@10.12.1 && pnpm build"
+
+[build.env]
+NODE_VERSION = "24.2.0"
 
 [deploy]
 startCommand = "pnpm start"
