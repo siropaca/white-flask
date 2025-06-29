@@ -52,6 +52,23 @@ GraphQL スキーマは、優れた TypeScript サポートを提供するコー
 
 PostgreSQL の Drizzle ORM で設定済み。スキーマ定義は `src/schema.ts` および `src/db.ts` にあります。
 
+### Docker Compose による PostgreSQL セットアップ
+
+プロジェクトルートの `docker-compose.yml` で PostgreSQL データベースが定義されています：
+
+- **イメージ**: postgres:16-alpine
+- **コンテナ名**: white-flask-db
+- **ポート**: 5433:5432 (ホスト:コンテナ)
+- **データベース名**: white_flask_db
+- **ユーザー**: white_flask
+- **パスワード**: white_flask_password
+
+```bash
+# プロジェクトルートから実行
+docker-compose up -d  # PostgreSQL コンテナを起動
+docker-compose down   # PostgreSQL コンテナを停止
+```
+
 ### データベースコマンド
 
 ```bash
