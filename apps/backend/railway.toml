@@ -3,7 +3,7 @@ NODE_VERSION = "24.2.0"
 
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm --filter backend build"
+buildCommand = "pnpm --filter backend build && pnpm --filter backend db:migrate"
 
 [deploy]
 startCommand = "pnpm --filter backend start"
