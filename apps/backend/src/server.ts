@@ -1,6 +1,9 @@
 import { createServer } from 'node:http'
 import { createYoga } from 'graphql-yoga'
 import { schema } from './schema.js'
+import { getEnv } from './libs/env.js'
+
+const env = getEnv()
 
 const yoga = createYoga({
   schema,
@@ -8,7 +11,7 @@ const yoga = createYoga({
 
 const server = createServer(yoga)
 
-const port = Number(process.env.PORT) || 3003
+const port = Number(env.PORT)
 
 server.listen(port, () => {
   // eslint-disable-next-line no-console
