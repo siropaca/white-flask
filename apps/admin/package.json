@@ -9,7 +9,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "vite preview",
-    "start": "serve build -p ${PORT:-3002}"
+    "start": "serve build -p 3002"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "6.0.1",
