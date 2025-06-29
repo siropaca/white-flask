@@ -48,8 +48,5 @@ coverage
 *.pem
 .vercel
 
-# Prisma
-prisma/migrations/dev
-
 # Claude
 /.claude/settings.local.json
