@@ -102,6 +102,8 @@ const config: ConfigArray = tseslint.config(
       '.svelte-kit/**',
       'apps/blog/.next/**',
       'apps/admin/.svelte-kit/**',
+      'apps/admin/build/**',
+      'apps/backend/dist/**',
       '**/*.svelte'
     ]
   }

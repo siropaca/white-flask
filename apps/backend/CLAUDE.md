@@ -1,72 +1,81 @@
 # CLAUDE.md - Backend Application
 
-This file provides guidance to Claude Code when working with the backend application.
+このファイルはバックエンドアプリケーションで作業する際の Claude Code への指示を提供します。
 
-## Overview
+## 概要
 
-The backend application provides a GraphQL API built with Pothos schema builder and GraphQL Yoga server, serving as the data layer for the blog and admin applications.
+バックエンドアプリケーションは Pothos スキーマビルダーと GraphQL Yoga サーバーで構築された GraphQL API を提供し、ブログと管理画面アプリケーションのデータレイヤーとして機能します。
 
-## Technology Stack
+## 技術スタック
 
-- **GraphQL Schema**: Pothos (code-first schema builder)
-- **GraphQL Server**: GraphQL Yoga
-- **Runtime**: Node.js with ES Modules
-- **Language**: TypeScript
-- **Database**: PostgreSQL with Prisma ORM (to be configured)
+- **GraphQL スキーマ**: Pothos（コードファーストのスキーマビルダー）
+- **GraphQL サーバー**: GraphQL Yoga
+- **ランタイム**: ES Modules を使用した Node.js
+- **言語**: TypeScript
+- **データベース**: Drizzle ORM を使用した PostgreSQL（設定済み）
 
-## Project Structure
+## プロジェクト構造
 
 ```
 apps/backend/
 ├── src/
-│   ├── server.ts       # Server entry point
-│   ├── schema.ts       # GraphQL schema definition
-│   └── resolvers/      # GraphQL resolvers (to be added)
-├── prisma/             # Prisma schema and migrations (to be added)
-├── tsconfig.json       # TypeScript configuration
-└── package.json        # Package configuration
+│   ├── server.ts       # サーバーエントリーポイント
+│   ├── schema.ts       # GraphQL スキーマ定義
+│   └── resolvers/      # GraphQL リゾルバー（追加予定）
+├── drizzle.config.ts   # Drizzle 設定ファイル
+├── tsconfig.json       # TypeScript 設定
+└── package.json        # パッケージ設定
 ```
 
-## Development Commands
+## 開発コマンド
 
 ```bash
-# From the backend directory
-pnpm dev      # Start development server with hot reload
-pnpm build    # Build for production
-pnpm start    # Start production server
+# backend ディレクトリから実行
+pnpm dev      # ホットリロード付き開発サーバー起動
+pnpm build    # プロダクション用ビルド
+pnpm start    # プロダクションサーバー起動
 ```
 
-## Key Features
+## 主要機能
 
-- GraphQL API with Pothos schema builder
-- Type-safe resolver implementation
-- GraphQL Playground at http://localhost:3003/graphql
-- Hot reload in development mode
-- ES Modules support
+- Pothos スキーマビルダーを使用した GraphQL API
+- 型安全なリゾルバー実装
+- http://localhost:3003/graphql での GraphQL Playground
+- 開発モードでのホットリロード
+- ES Modules サポート
 
-## Schema Design
+## スキーマ設計
 
-The GraphQL schema is built using Pothos, a code-first schema builder that provides excellent TypeScript support. The schema is defined in `src/schema.ts`.
+GraphQL スキーマは、優れた TypeScript サポートを提供するコードファーストのスキーマビルダーである Pothos を使用して構築されています。スキーマは `src/schema.ts` で定義されています。
 
-## Database Integration
+## データベース統合
 
-(To be configured with Prisma ORM for PostgreSQL)
+PostgreSQL の Drizzle ORM で設定済み。スキーマ定義は `src/schema.ts` および `src/db.ts` にあります。
 
-## API Endpoints
+### データベースコマンド
 
-- **GraphQL Endpoint**: `http://localhost:3003/graphql`
-- **GraphQL Playground**: Available at the same URL in development mode
+```bash
+# backend ディレクトリから実行
+pnpm db:generate  # Drizzle スキーマファイル生成
+pnpm db:migrate   # データベースマイグレーション実行
+pnpm db:studio    # Drizzle Studio の起動
+```
 
-## Authentication & Authorization
+## API エンドポイント
 
-(To be implemented based on project requirements)
+- **GraphQL エンドポイント**: `http://localhost:3003/graphql`
+- **GraphQL Playground**: 開発モードでは同じ URL で利用可能
 
-## Error Handling
+## 認証と認可
 
-GraphQL Yoga provides built-in error handling with proper error masking for production environments.
+（プロジェクト要件に基づいて実装予定）
 
-## Performance Considerations
+## エラーハンドリング
 
-- Response caching can be implemented with GraphQL Yoga plugins
-- DataLoader pattern for N+1 query prevention
-- Query depth limiting for security
+GraphQL Yoga は、プロダクション環境での適切なエラーマスキングを備えた組み込みエラーハンドリングを提供します。
+
+## パフォーマンスの考慮事項
+
+- GraphQL Yoga プラグインでレスポンスキャッシュを実装可能
+- N+1 クエリ防止のための DataLoader パターン
+- セキュリティのためのクエリ深度制限
