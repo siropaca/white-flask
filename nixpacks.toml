@@ -1,0 +1,5 @@
+[variables]
+NODE_VERSION = "24.2.0"
+
+[build]
+cmds = ["npm install -g pnpm@10.12.1"]
