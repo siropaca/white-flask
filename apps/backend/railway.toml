@@ -3,9 +3,10 @@ NODE_VERSION = "24.2.0"
 
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm --filter backend build && pnpm --filter backend db:migrate"
+buildCommand = "pnpm --filter backend build"
 
 [deploy]
+preDeployCommand = "pnpm --filter backend db:migrate"
 startCommand = "pnpm --filter backend start"
 healthcheckPath = "/graphql"
 healthcheckTimeout = 300
