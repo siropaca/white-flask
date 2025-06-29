@@ -6,6 +6,8 @@
   "scripts": {
     "build": "svelte-kit sync && vite build",
     "dev": "vite dev",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "preview": "vite preview",
     "start": "serve build -p ${PORT:-3002}"
   },

@@ -7,7 +7,7 @@ interface Env {
   DATABASE_URL: string
 }
 
-export function getEnv(): Env  {
+export function getEnv(): Env {
   const requiredEnvVars = {
     PORT: process.env.PORT,
     DATABASE_URL: process.env.DATABASE_URL,

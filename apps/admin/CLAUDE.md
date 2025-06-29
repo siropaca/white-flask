@@ -5,6 +5,7 @@
 ## 重要なドキュメント
 
 LLM での SvelteKit のベストプラクティスについては、以下のドキュメントを参照してください：
+
 - https://svelte.jp/docs/llms
 
 ## 概要

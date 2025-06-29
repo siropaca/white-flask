@@ -3,6 +3,7 @@
 ## 🚀 概要
 
 このバックエンドサービスは以下の技術で構築された GraphQL API を提供します：
+
 - **Pothos** - 型安全な GraphQL スキーマビルダー
 - **GraphQL Yoga** - 高速でフル機能の GraphQL サーバー
 - **Drizzle ORM** - 依存関係ゼロの TypeScript ORM
@@ -72,27 +73,25 @@ import { users } from './schema/users'
 import { eq } from 'drizzle-orm'
 
 // 挿入
-const newUser = await db.insert(users).values({
-  email: 'user@example.com',
-  name: 'John Doe',
-}).returning()
+const newUser = await db
+  .insert(users)
+  .values({
+    email: 'user@example.com',
+    name: 'John Doe',
+  })
+  .returning()
 
 // 全件取得
 const allUsers = await db.select().from(users)
 
 // 条件付き取得
-const user = await db.select()
-  .from(users)
-  .where(eq(users.email, 'user@example.com'))
+const user = await db.select().from(users).where(eq(users.email, 'user@example.com'))
 
 // 更新
-await db.update(users)
-  .set({ name: 'Jane Doe' })
-  .where(eq(users.id, userId))
+await db.update(users).set({ name: 'Jane Doe' }).where(eq(users.id, userId))
 
 // 削除
-await db.delete(users)
-  .where(eq(users.id, userId))
+await db.delete(users).where(eq(users.id, userId))
 ```
 
 ### Pothos GraphQL との連携
@@ -112,11 +111,8 @@ builder.queryType({
         id: t.arg.string({ required: true }),
       },
       resolve: async (parent, args, ctx) => {
-        const result = await ctx.db.select()
-          .from(users)
-          .where(eq(users.id, args.id))
-          .limit(1)
-        
+        const result = await ctx.db.select().from(users).where(eq(users.id, args.id)).limit(1)
+
         return result[0] || null
       },
     }),
@@ -126,14 +122,14 @@ builder.queryType({
 
 ## 📝 利用可能なスクリプト
 
-| スクリプト | 説明 |
-|--------|-------------|
-| `pnpm dev` | ホットリロード付きの開発サーバーを起動 |
-| `pnpm build` | 本番用にビルド |
-| `pnpm start` | 本番サーバーを起動 |
+| スクリプト         | 説明                                             |
+| ------------------ | ------------------------------------------------ |
+| `pnpm dev`         | ホットリロード付きの開発サーバーを起動           |
+| `pnpm build`       | 本番用にビルド                                   |
+| `pnpm start`       | 本番サーバーを起動                               |
 | `pnpm db:generate` | スキーマの変更からマイグレーションファイルを生成 |
-| `pnpm db:migrate` | データベースにマイグレーションを適用 |
-| `pnpm db:studio` | Drizzle Studio GUI を開く |
+| `pnpm db:migrate`  | データベースにマイグレーションを適用             |
+| `pnpm db:studio`   | Drizzle Studio GUI を開く                        |
 
 ## 🗂️ プロジェクト構成
 
@@ -163,10 +159,11 @@ apps/backend/
 ### データベース接続の問題
 
 1. PostgreSQL が起動していることを確認：
+
    ```bash
    # Docker を使用している場合
    docker-compose up -d
-   
+
    # コンテナが実行中か確認
    docker ps
    ```

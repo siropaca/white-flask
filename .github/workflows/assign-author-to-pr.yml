@@ -1,4 +1,4 @@
-name: "Assign author to Pull request"
+name: 'Assign author to Pull request'
 
 on:
   pull_request:

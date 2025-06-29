@@ -9,6 +9,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "dev": "tsx watch src/server.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "start": "node dist/server.js"
   },
   "dependencies": {
