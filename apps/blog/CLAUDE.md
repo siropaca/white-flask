@@ -233,6 +233,72 @@ pnpm lint     # ESLint 実行
 
 Next.js は App Router でファイルベースのルーティングを使用します。ルートは `src/app/` ディレクトリで定義されます。
 
+### ルーティングのベストプラクティス
+
+#### ROUTES 定数の使用を徹底する
+
+**重要**: 全てのページパスは `@/shared/config` の `ROUTES` 定数を通して使用する。直接文字列でパスを記述してはいけない。
+
+**正しい例**:
+```typescript
+import { ROUTES } from '@/shared/config'
+
+// ✅ 正しい: ROUTES を使用
+<Link href={ROUTES.home}>ホーム</Link>
+<Link href={ROUTES.blog.index}>ブログ一覧</Link>
+<Link href={ROUTES.blog.detail('post-id')}>記事詳細</Link>
+<Link href={ROUTES.about}>プロフィール</Link>
+
+// Next.js の router でも同様
+router.push(ROUTES.blog.index)
+redirect(ROUTES.home)
+```
+
+**間違った例**:
+```typescript
+// ❌ 間違い: 直接文字列を使用
+<Link href="/">ホーム</Link>
+<Link href="/blog">ブログ一覧</Link>
+<Link href={`/blog/${id}`}>記事詳細</Link>
+
+// ❌ 間違い: router でも直接文字列を使用
+router.push('/blog')
+redirect('/')
+```
+
+#### ROUTES 定数の利点
+
+1. **一元管理**: 全てのルートが一箇所で管理され、変更時の影響範囲が明確
+2. **型安全性**: TypeScript により、存在しないルートの参照でコンパイルエラー
+3. **リファクタリング安全性**: IDE の refactor 機能でルート名の一括変更が可能
+4. **動的ルートの型安全性**: パラメータ付きルートも型安全に使用可能
+
+#### 動的ルートの扱い
+
+動的ルートは関数として定義し、パラメータを受け取る形にする：
+
+```typescript
+// shared/config/routes.ts
+export const ROUTES = {
+  blog: {
+    detail: (id: string) => `/blog/${id}`,
+    category: (category: string, page?: number) => 
+      `/blog/category/${category}${page ? `?page=${page}` : ''}`,
+  },
+} as const
+
+// 使用例
+<Link href={ROUTES.blog.detail('my-first-post')}>
+<Link href={ROUTES.blog.category('tech', 2)}>
+```
+
+#### 実装時のチェックポイント
+
+- [ ] 新しいページを作成時は ROUTES に定数を追加したか
+- [ ] Link コンポーネントや router で ROUTES を使用しているか
+- [ ] 直接文字列でパスを記述していないか
+- [ ] 動的ルートのパラメータは型安全に定義されているか
+
 ## データフェッチング
 
 Feature-Sliced Design に準拠したデータフェッチング戦略：
