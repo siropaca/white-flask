@@ -3,7 +3,7 @@ NODE_VERSION = "24.2.0"
 
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm --filter blog build"
+buildCommand = "pnpm --filter backend schema:generate && pnpm --filter blog build"
 
 [deploy]
 startCommand = "pnpm --filter blog start"

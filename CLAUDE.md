@@ -6,9 +6,9 @@
 
 White Flask は pnpm workspace を使用したモノレポ構造による個人ブログサイトプロジェクトです。3つのアプリケーションから構成されています：
 
-- `apps/blog` - ブログサイトフロントエンド (Next.js)
-- `apps/admin` - 管理画面 (SvelteKit)
-- `apps/backend` - GraphQL API (Pothos + GraphQL Yoga)
+- @/apps/blog - ブログサイトフロントエンド (Next.js)
+- @/apps/admin - 管理画面 (SvelteKit)
+- @/apps/backend - GraphQL API (Pothos + GraphQL Yoga)
 
 ## 開発コマンド
 
@@ -52,17 +52,18 @@ docker-compose up -d
 
 特定のアプリで作業する際は、それぞれのディレクトリからコマンドを実行できます：
 
-- `apps/admin`：Vite/SvelteKit コマンドを使用 (dev, build, preview)
-- `apps/backend`：開発には tsx (`pnpm dev`)、ビルドには tsc を使用
-- `apps/blog`：Next.js コマンドを使用 (dev, build, start, lint)
+- @/apps/admin：Vite/SvelteKit コマンドを使用 (dev, build, preview)
+- @/apps/backend：開発には tsx (`pnpm dev`)、ビルドには tsc を使用
+- @/apps/blog：Next.js コマンドを使用 (dev, build, start, lint)
 
 ## アーキテクチャと主要パターン
 
 ### モノレポ構造
 
-- `pnpm-workspace.yaml` で定義された pnpm workspace を使用
-- 共有 TypeScript 設定は `tsconfig.base.json` から継承
-- 各アプリは独自の `package.json` と特定の依存関係を持つ
+- @/pnpm-workspace.yaml で定義された pnpm workspace を使用
+- 共有 TypeScript 設定は @/tsconfig.base.json から継承
+- 各アプリは独自の @/package.json と特定の依存関係を持つ
+- @/generated ディレクトリは自動生成ファイル用（Git 管理対象外）
 
 ### 技術スタック
 
@@ -82,9 +83,22 @@ docker-compose up -d
 
 各アプリケーションには詳細情報を含む独自の CLAUDE.md ファイルがあります：
 
-- `apps/admin/CLAUDE.md` - SvelteKit 管理画面の詳細
-- `apps/blog/CLAUDE.md` - Next.js ブログサイトの詳細
-- `apps/backend/CLAUDE.md` - GraphQL API の詳細
+- @/apps/admin/CLAUDE.md - SvelteKit 管理画面の詳細
+- @/apps/blog/CLAUDE.md - Next.js ブログサイトの詳細
+- @/apps/backend/CLAUDE.md - GraphQL API の詳細
+
+## 生成ファイルの管理
+
+### /generated ディレクトリ
+
+プロジェクトルートの @/generated ディレクトリは自動生成されるファイルを格納するために使用されます：
+
+- **GraphQL スキーマ**: @/generated/graphql/schema.graphql
+  - @/apps/backend の `pnpm schema:generate` コマンドで生成
+  - Pothos で定義したスキーマの SDL 形式ファイル
+  - クライアントコード生成やドキュメント作成に使用
+
+このディレクトリは @/.gitignore に含まれており、Git 管理対象外です。
 
 ## Documentation Guidelines
 
@@ -93,6 +107,12 @@ docker-compose up -d
 - **CLAUDE.md および README ファイルは日本語で記述すること**
 - コメントやドキュメントは日本語で書く
 - ユーザー向けドキュメントは日本語での説明を優先する
+
+### Path Notation Guidelines
+
+- **CLAUDE.md でパスを記述する際は、バッククォート（`）で囲まずに @ をパスの先頭に付けること**
+- これは Claude Code が CLAUDE.md を読む際に、バッククォートで囲まれたパスを競合防止のため認識しないため
+- @ プレフィックスにより、Claude Code がそれをパスとして正しく認識できるようになる
 
 ### Implementation Guidelines
 
@@ -149,6 +169,7 @@ docker-compose up -d
 ### インフラ処理の責務分離原則
 
 - **インフラ関連タスクの実行場所について優先順位を持つ：**
+
   - **第一選択**: プラットフォーム専用機能（Railway の preDeployCommand、Vercel の Build Command、Heroku の Release Phase など）
   - **第二選択**: CI/CD パイプライン（GitHub Actions、GitLab CI など）
   - **第三選択**: コンテナ・設定ファイル（Dockerfile、docker-compose.yml など）
@@ -174,17 +195,20 @@ docker-compose up -d
 - **ユーザーから「反省して」「学習して」と指摘された場合は、以下の手順で CLAUDE.md を更新すること：**
 
 #### 1. 反省点の分析と汎用化
+
 - 特定の技術・プラットフォームに限定しすぎず、**汎用的な原則**として記載する
 - 単発の問題ではなく、**再発防止可能なパターン**として整理する
 - 具体例は複数のプラットフォーム・技術から選んで幅広くカバーする
 
 #### 2. 学習事項の構造化
+
 - **問題の根本原因**：なぜそのアプローチを選んでしまったのか
 - **改善されたアプローチ**：今後どのような手順で問題解決すべきか
 - **判断基準の明確化**：どの選択肢を優先すべきかの基準
 - **調査方法の改善**：より効果的な情報収集方法
 
 #### 3. CLAUDE.md への記載ルール
+
 - **新しいセクション**として追加する（既存セクションの単純な修正ではなく）
 - **具体的で実行可能な指針**を含める
 - **将来の類似問題に適用可能**な形で記述する
@@ -195,6 +219,7 @@ docker-compose up -d
 - **ユーザーから明示的に指摘されなくても、以下の場合は自発的に CLAUDE.md を更新すること：**
 
 #### 改善提案の判断基準
+
 - **今後に活かせる汎用的な知見**を得た場合
 - **より良いアプローチ**を発見した場合
 - **効率的な調査方法**を見つけた場合
@@ -202,6 +227,7 @@ docker-compose up -d
 - **ユーザーエクスペリエンス向上**につながる改善を発見した場合
 
 #### 自発的改善の記録方法
+
 1. **改善の背景**：どのような状況で発見したか
 2. **従来のアプローチ**：これまでの方法や考え方
 3. **改善されたアプローチ**：新しく発見した方法
@@ -209,6 +235,7 @@ docker-compose up -d
 5. **実装指針**：具体的にどう実践するか
 
 #### 改善提案のタイミング
+
 - **問題解決の過程で効果的な方法を発見した時**
 - **より良い技術選択肢を見つけた時**
 - **ユーザーとのやり取りで学んだベストプラクティス**

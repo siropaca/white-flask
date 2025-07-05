@@ -50,3 +50,6 @@ coverage
 
 # Claude
 /.claude/settings.local.json
+
+# Generated files
+/generated

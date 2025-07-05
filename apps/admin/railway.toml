@@ -3,7 +3,7 @@ NODE_VERSION = "24.2.0"
 
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm --filter admin build"
+buildCommand = "pnpm --filter backend schema:generate && pnpm --filter admin build"
 
 [deploy]
 startCommand = "pnpm --filter admin start"
