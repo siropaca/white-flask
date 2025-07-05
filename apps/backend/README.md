@@ -120,16 +120,33 @@ builder.queryType({
 })
 ```
 
+## 📄 GraphQL スキーマの生成
+
+Pothos で定義した GraphQL スキーマを SDL (Schema Definition Language) ファイルとして出力できます：
+
+```bash
+pnpm schema:generate
+```
+
+このコマンドを実行すると、GraphQL スキーマが `/generated/graphql/schema.graphql` に出力されます。
+
+生成されたスキーマファイルは以下の用途で使用できます：
+
+- GraphQL クライアントのコード生成
+- API ドキュメントの自動生成
+- スキーマの変更履歴の確認（Git 管理外）
+
 ## 📝 利用可能なスクリプト
 
-| スクリプト         | 説明                                             |
-| ------------------ | ------------------------------------------------ |
-| `pnpm dev`         | ホットリロード付きの開発サーバーを起動           |
-| `pnpm build`       | 本番用にビルド                                   |
-| `pnpm start`       | 本番サーバーを起動                               |
-| `pnpm db:generate` | スキーマの変更からマイグレーションファイルを生成 |
-| `pnpm db:migrate`  | データベースにマイグレーションを適用             |
-| `pnpm db:studio`   | Drizzle Studio GUI を開く                        |
+| スクリプト             | 説明                                             |
+| ---------------------- | ------------------------------------------------ |
+| `pnpm dev`             | ホットリロード付きの開発サーバーを起動           |
+| `pnpm build`           | 本番用にビルド                                   |
+| `pnpm start`           | 本番サーバーを起動                               |
+| `pnpm schema:generate` | GraphQL スキーマを SDL ファイルとして出力        |
+| `pnpm db:generate`     | スキーマの変更からマイグレーションファイルを生成 |
+| `pnpm db:migrate`      | データベースにマイグレーションを適用             |
+| `pnpm db:studio`       | Drizzle Studio GUI を開く                        |
 
 ## 🗂️ プロジェクト構成
 

@@ -6,9 +6,9 @@
 
 White Flask は pnpm workspace を使用したモノレポ構造による個人ブログサイトプロジェクトです。3つのアプリケーションから構成されています：
 
-- `apps/blog` - ブログサイトフロントエンド (Next.js)
-- `apps/admin` - 管理画面 (SvelteKit)
-- `apps/backend` - GraphQL API (Pothos + GraphQL Yoga)
+- @/apps/blog - ブログサイトフロントエンド (Next.js)
+- @/apps/admin - 管理画面 (SvelteKit)
+- @/apps/backend - GraphQL API (Pothos + GraphQL Yoga)
 
 ## 開発コマンド
 
@@ -52,17 +52,18 @@ docker-compose up -d
 
 特定のアプリで作業する際は、それぞれのディレクトリからコマンドを実行できます：
 
-- `apps/admin`：Vite/SvelteKit コマンドを使用 (dev, build, preview)
-- `apps/backend`：開発には tsx (`pnpm dev`)、ビルドには tsc を使用
-- `apps/blog`：Next.js コマンドを使用 (dev, build, start, lint)
+- @/apps/admin：Vite/SvelteKit コマンドを使用 (dev, build, preview)
+- @/apps/backend：開発には tsx (`pnpm dev`)、ビルドには tsc を使用
+- @/apps/blog：Next.js コマンドを使用 (dev, build, start, lint)
 
 ## アーキテクチャと主要パターン
 
 ### モノレポ構造
 
-- `pnpm-workspace.yaml` で定義された pnpm workspace を使用
-- 共有 TypeScript 設定は `tsconfig.base.json` から継承
-- 各アプリは独自の `package.json` と特定の依存関係を持つ
+- @/pnpm-workspace.yaml で定義された pnpm workspace を使用
+- 共有 TypeScript 設定は @/tsconfig.base.json から継承
+- 各アプリは独自の @/package.json と特定の依存関係を持つ
+- @/generated ディレクトリは自動生成ファイル用（Git 管理対象外）
 
 ### 技術スタック
 
@@ -82,9 +83,22 @@ docker-compose up -d
 
 各アプリケーションには詳細情報を含む独自の CLAUDE.md ファイルがあります：
 
-- `apps/admin/CLAUDE.md` - SvelteKit 管理画面の詳細
-- `apps/blog/CLAUDE.md` - Next.js ブログサイトの詳細
-- `apps/backend/CLAUDE.md` - GraphQL API の詳細
+- @/apps/admin/CLAUDE.md - SvelteKit 管理画面の詳細
+- @/apps/blog/CLAUDE.md - Next.js ブログサイトの詳細
+- @/apps/backend/CLAUDE.md - GraphQL API の詳細
+
+## 生成ファイルの管理
+
+### /generated ディレクトリ
+
+プロジェクトルートの @/generated ディレクトリは自動生成されるファイルを格納するために使用されます：
+
+- **GraphQL スキーマ**: @/generated/graphql/schema.graphql
+  - @/apps/backend の `pnpm schema:generate` コマンドで生成
+  - Pothos で定義したスキーマの SDL 形式ファイル
+  - クライアントコード生成やドキュメント作成に使用
+
+このディレクトリは @/.gitignore に含まれており、Git 管理対象外です。
 
 ## Documentation Guidelines
 
@@ -93,6 +107,12 @@ docker-compose up -d
 - **CLAUDE.md および README ファイルは日本語で記述すること**
 - コメントやドキュメントは日本語で書く
 - ユーザー向けドキュメントは日本語での説明を優先する
+
+### Path Notation Guidelines
+
+- **CLAUDE.md でパスを記述する際は、バッククォート（`）で囲まずに @ をパスの先頭に付けること**
+- これは Claude Code が CLAUDE.md を読む際に、バッククォートで囲まれたパスを競合防止のため認識しないため
+- @ プレフィックスにより、Claude Code がそれをパスとして正しく認識できるようになる
 
 ### Implementation Guidelines
 

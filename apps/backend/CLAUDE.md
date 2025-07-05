@@ -31,9 +31,10 @@ apps/backend/
 
 ```bash
 # backend ディレクトリから実行
-pnpm dev      # ホットリロード付き開発サーバー起動
-pnpm build    # プロダクション用ビルド
-pnpm start    # プロダクションサーバー起動
+pnpm dev             # ホットリロード付き開発サーバー起動
+pnpm build           # プロダクション用ビルド
+pnpm start           # プロダクションサーバー起動
+pnpm schema:generate # GraphQL スキーマを SDL ファイルとして出力
 ```
 
 ## 主要機能
@@ -96,3 +97,33 @@ GraphQL Yoga は、プロダクション環境での適切なエラーマスキ�
 - GraphQL Yoga プラグインでレスポンスキャッシュを実装可能
 - N+1 クエリ防止のための DataLoader パターン
 - セキュリティのためのクエリ深度制限
+
+## GraphQL スキーマ生成
+
+### スキーマファイルの出力
+
+Pothos で定義した GraphQL スキーマを SDL (Schema Definition Language) 形式でファイルに出力できます：
+
+```bash
+pnpm schema:generate
+```
+
+### 出力先
+
+- **ファイルパス**: `/generated/graphql/schema.graphql`（プロジェクトルート相対）
+- **フォーマット**: GraphQL SDL 形式（lexicographicSortSchema で整形済み）
+
+### 用途
+
+生成されたスキーマファイルは以下の用途で活用できます：
+
+1. **クライアントコード生成** - GraphQL Code Generator と連携してフロントエンドの型定義を自動生成
+2. **API ドキュメント** - GraphQL Playground や他のドキュメント生成ツールで利用
+3. **CI/CD** - スキーマの変更検知や互換性チェック
+4. **チーム共有** - GraphQL スキーマの仕様を他のチームメンバーと共有
+
+### 実装の詳細
+
+- `src/generate-schema.ts` - スキーマ生成スクリプト
+- `graphql` パッケージの `printSchema` と `lexicographicSortSchema` を使用
+- 生成されたファイルは Git 管理対象外（`/generated` ディレクトリ全体が `.gitignore` に含まれる）
