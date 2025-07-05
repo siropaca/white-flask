@@ -1,11 +1,12 @@
 import { BlogDetailPage } from '@/views/blog'
 
 interface Props {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-export default function Page({ params }: Props) {
-  return <BlogDetailPage id={params.id} />
+export default async function Page({ params }: Props) {
+  const { id } = await params
+  return <BlogDetailPage id={id} />
 }

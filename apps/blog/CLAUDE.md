@@ -370,3 +370,63 @@ Feature-Sliced Design のためのパスエイリアス設定：
 - [ ] 同一レイヤー間の直接的な依存がないか
 - [ ] ビジネスロジックが適切なレイヤーに配置されているか
 - [ ] スライスの責務が明確に定義されているか
+
+## Next.js 15 対応の重要な注意点
+
+### params の Promise 化
+
+**重要**: Next.js 15 では動的ルートの `params` プロパティが Promise になりました。
+
+#### 従来の書き方（Next.js 14 以前）
+
+```typescript
+// 古い書き方 - Next.js 15 ではエラーになる
+interface Props {
+  params: {
+    id: string
+  }
+}
+
+export default function Page({ params }: Props) {
+  return <BlogDetailPage id={params.id} />
+}
+```
+
+#### 正しい書き方（Next.js 15）
+
+```typescript
+// 正しい書き方 - params は Promise<T> 型
+interface Props {
+  params: Promise<{
+    id: string
+  }>
+}
+
+export default async function Page({ params }: Props) {
+  const { id } = await params
+  return <BlogDetailPage id={id} />
+}
+```
+
+#### 実装時のチェックポイント
+
+1. **型定義**: `params` は `Promise<T>` 型にする
+2. **関数**: コンポーネントを `async function` にする
+3. **アクセス**: `await params` でデータを取得してから使用する
+4. **他の props**: `searchParams` も同様に Promise 化されている
+
+#### 適用対象
+
+- `app/[slug]/page.tsx` などの動的ルートのページコンポーネント
+- `layout.tsx` で params を使用している場合
+- `generateMetadata` 関数内での params 使用
+
+この変更により、ビルド時に以下のようなエラーが発生する場合があります：
+
+```
+Type error: Type 'Props' does not satisfy the constraint 'PageProps'.
+Types of property 'params' are incompatible.
+Type '{ id: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+```
+
+必ず Context7 MCP で最新の Next.js ドキュメントを確認し、params の正しい使用方法を適用してください。
