@@ -6,7 +6,7 @@
   "scripts": {
     "build": "pnpm run -r build",
     "dev": "pnpm run --parallel dev",
-    "fix": "pnpm lint:fix && pnpm format",
+    "fix": "pnpm sort && pnpm lint:fix && pnpm format",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint . && pnpm run -r lint",

@@ -24,7 +24,7 @@ apps/blog/
 │   │   ├── layout.tsx
 │   │   └── page.tsx
 │   ├── processes/     # 複雑なページ間のビジネスプロセス
-│   ├── pages/         # ページコンポジション
+│   ├── views/         # ページコンポジション（Next.js の pages/ との競合を避けるため views/ を使用）
 │   ├── widgets/       # 独立した UI ブロック
 │   ├── features/      # ユーザーシナリオ
 │   ├── entities/      # ビジネスエンティティ
@@ -107,16 +107,19 @@ apps/blog/
   └── post-card/    # 記事カードウィジェット
   ```
 
-#### 5. pages/
+#### 5. views/
 
 - **責務**: 完全なページ構成
 - **内容**: ルーティングに対応したページコンポーネント
+- **注意**: Next.js の pages/ ディレクトリとの競合を避けるため、views/ を使用
 - **例**:
   ```
-  pages/
+  views/
   ├── home/         # ホームページ
-  ├── post/         # 記事詳細ページ
-  └── category/     # カテゴリページ
+  ├── blog/         # ブログ関連ページ
+  ├── works/        # 開発実績ページ
+  ├── about/        # プロフィールページ
+  └── contact/      # 問い合わせページ
   ```
 
 #### 6. processes/（オプション）
@@ -161,7 +164,7 @@ feature-name/
 
 2. **レイヤー間の依存関係**
    ```
-   app → processes → pages → widgets → features → entities → shared
+   app → processes → views → widgets → features → entities → shared
    ```
    矢印の方向にのみ依存可能
 
@@ -179,8 +182,8 @@ feature-name/
 Next.js の App Router と FSD の統合：
 
 - `app/` は主にルーティングとレイアウト定義に使用
-- ページの実装は `src/pages/` に配置
-- `app/page.tsx` は `src/pages/` のコンポーネントをインポート
+- ページの実装は `src/views/` に配置
+- `app/page.tsx` は `src/views/` のコンポーネントをインポート
 
 #### Server Components の活用
 
@@ -247,7 +250,7 @@ Feature-Sliced Design に準拠したデータフェッチング戦略：
    - フォーム送信
    - インタラクティブなデータ更新
 
-3. **pages/** - ページレベルのデータフェッチング
+3. **views/** - ページレベルのデータフェッチング
    - Server Components でのデータ取得
    - ページ全体の状態管理
 
@@ -262,7 +265,7 @@ export async function fetchPost(id: string) {
   // GraphQL API との通信
 }
 
-// pages/post/ui/PostPage.tsx
+// views/post/ui/PostPage.tsx
 import { fetchPost } from '@/entities/post'
 ```
 
@@ -291,7 +294,7 @@ Feature-Sliced Design に適したスタイリング戦略：
    - **entities/** - ドメイン固有のスタイル
    - **features/** - 機能固有のスタイル
    - **widgets/** - コンポジションのレイアウトスタイル
-   - **pages/** - ページレベルのレイアウト
+   - **views/** - ページレベルのレイアウト
 
 ## パフォーマンス最適化
 
@@ -327,7 +330,7 @@ Feature-Sliced Design のためのパスエイリアス設定：
       "@/*": ["./src/*"],
       "@/app/*": ["./src/app/*"],
       "@/processes/*": ["./src/processes/*"],
-      "@/pages/*": ["./src/pages/*"],
+      "@/views/*": ["./src/views/*"],
       "@/widgets/*": ["./src/widgets/*"],
       "@/features/*": ["./src/features/*"],
       "@/entities/*": ["./src/entities/*"],
@@ -356,7 +359,7 @@ Feature-Sliced Design のためのパスエイリアス設定：
    - ユーザー機能の切り出し
    - 状態管理の整理
 
-4. **フェーズ 4: pages/ と widgets/ の構築**
+4. **フェーズ 4: views/ と widgets/ の構築**
    - ページコンポーネントの再構成
    - レイアウトの最適化
 
@@ -367,3 +370,63 @@ Feature-Sliced Design のためのパスエイリアス設定：
 - [ ] 同一レイヤー間の直接的な依存がないか
 - [ ] ビジネスロジックが適切なレイヤーに配置されているか
 - [ ] スライスの責務が明確に定義されているか
+
+## Next.js 15 対応の重要な注意点
+
+### params の Promise 化
+
+**重要**: Next.js 15 では動的ルートの `params` プロパティが Promise になりました。
+
+#### 従来の書き方（Next.js 14 以前）
+
+```typescript
+// 古い書き方 - Next.js 15 ではエラーになる
+interface Props {
+  params: {
+    id: string
+  }
+}
+
+export default function Page({ params }: Props) {
+  return <BlogDetailPage id={params.id} />
+}
+```
+
+#### 正しい書き方（Next.js 15）
+
+```typescript
+// 正しい書き方 - params は Promise<T> 型
+interface Props {
+  params: Promise<{
+    id: string
+  }>
+}
+
+export default async function Page({ params }: Props) {
+  const { id } = await params
+  return <BlogDetailPage id={id} />
+}
+```
+
+#### 実装時のチェックポイント
+
+1. **型定義**: `params` は `Promise<T>` 型にする
+2. **関数**: コンポーネントを `async function` にする
+3. **アクセス**: `await params` でデータを取得してから使用する
+4. **他の props**: `searchParams` も同様に Promise 化されている
+
+#### 適用対象
+
+- `app/[slug]/page.tsx` などの動的ルートのページコンポーネント
+- `layout.tsx` で params を使用している場合
+- `generateMetadata` 関数内での params 使用
+
+この変更により、ビルド時に以下のようなエラーが発生する場合があります：
+
+```
+Type error: Type 'Props' does not satisfy the constraint 'PageProps'.
+Types of property 'params' are incompatible.
+Type '{ id: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+```
+
+必ず Context7 MCP で最新の Next.js ドキュメントを確認し、params の正しい使用方法を適用してください。
