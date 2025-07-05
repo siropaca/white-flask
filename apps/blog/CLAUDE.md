@@ -627,3 +627,52 @@ Type '{ id: string; }' is missing the following properties from type 'Promise<an
 ```
 
 必ず Context7 MCP で最新の Next.js ドキュメントを確認し、params の正しい使用方法を適用してください。
+
+## 自動生成ファイルの管理
+
+### @/apps/blog/src/gql ディレクトリの取り扱い
+
+**重要**: @/apps/blog/src/gql ディレクトリ配下のファイルは GraphQL Code Generator によって自動生成されるため、手動で編集してはいけません。
+
+#### 自動生成されるファイル
+
+- **graphql.ts**: GraphQL 型定義とクエリ型
+- **gql.ts**: GraphQL クエリ文字列のタグ付きテンプレート
+- **fragment-masking.ts**: GraphQL フラグメントマスキング機能
+- **index.ts**: パブリック API のエクスポート
+
+#### 修正が必要な場合の対応
+
+1. **型エラーが発生した場合**:
+   - 元となる GraphQL スキーマファイルを確認
+   - バックエンドの GraphQL スキーマ定義を修正
+   - `pnpm codegen` コマンドで再生成
+
+2. **ESLint エラーが発生した場合**:
+   - eslint-disable コメントを追加するのではなく、codegen 設定を調整
+   - 生成されるファイルに適切な lint ルールを適用
+
+3. **インポートエラーが発生した場合**:
+   - 自動生成されたファイルは直接修正せず、使用側のコードを調整
+   - 必要に応じて codegen の設定を見直し
+
+#### 再生成コマンド
+
+```bash
+# GraphQL 型定義の再生成
+pnpm codegen
+
+# または backend でスキーマを更新後
+cd apps/backend
+pnpm schema:generate
+cd ../blog
+pnpm codegen
+```
+
+#### 注意点
+
+- **絶対に手動編集しない**: 自動生成ファイルへの手動編集は次回の生成時に失われます
+- **Git 管理**: 自動生成ファイルも Git 管理対象ですが、手動でのコミットは避ける
+- **コードレビュー**: 自動生成ファイルの変更は、元となるスキーマ変更と合わせて確認する
+
+この原則により、GraphQL スキーマとクライアントコードの整合性が保たれ、型安全性が確保されます。
