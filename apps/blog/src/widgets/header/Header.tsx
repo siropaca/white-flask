@@ -1,9 +1,22 @@
 import Link from 'next/link'
 import { ROUTES } from '@/shared/config'
+import { Logo } from '@/shared/ui'
 
 export const Header = () => {
   return (
-    <header>
+    <header
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '1rem',
+      }}
+    >
+      <div>
+        <Link href={ROUTES.home} style={{ textDecoration: 'none' }}>
+          <Logo />
+        </Link>
+      </div>
       <nav>
         <Link href={ROUTES.home}>ホーム</Link>
         {' | '}
