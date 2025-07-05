@@ -12,7 +12,7 @@ const config: ConfigArray = tseslint.config(
     rules: {
       // TypeScript関連
       '@typescript-eslint/no-unused-vars': 'error',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/explicit-module-boundary-types': 'warn',
 
       // 一般的なルール（コード品質）
