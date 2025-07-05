@@ -175,6 +175,65 @@ feature-name/
 - **定数**: UPPER_SNAKE_CASE (`API_ENDPOINTS.ts`)
 - **型定義**: PascalCase (`Post.types.ts`)
 
+#### コンポーネント定義規則
+
+- **.tsx ファイルのコンポーネントは必ず function 型で定義すること**
+
+**正しい例**:
+
+```typescript
+// ✅ 正しい: function 型での定義
+export default function PostCard({ title, content }: Props) {
+  return (
+    <div>
+      <h2>{title}</h2>
+      <p>{content}</p>
+    </div>
+  )
+}
+
+// ✅ 正しい: 名前付き function での定義
+export function CategoryList({ categories }: Props) {
+  return (
+    <ul>
+      {categories.map(category => (
+        <li key={category.id}>{category.name}</li>
+      ))}
+    </ul>
+  )
+}
+```
+
+**間違った例**:
+
+```typescript
+// ❌ 間違い: アロー関数での定義
+const PostCard = ({ title, content }: Props) => {
+  return (
+    <div>
+      <h2>{title}</h2>
+      <p>{content}</p>
+    </div>
+  )
+}
+
+// ❌ 間違い: アロー関数の変数宣言
+export const CategoryList = ({ categories }: Props) => (
+  <ul>
+    {categories.map(category => (
+      <li key={category.id}>{category.name}</li>
+    ))}
+  </ul>
+)
+```
+
+**理由**:
+
+1. **一貫性の確保**: プロジェクト全体でのコード統一性
+2. **デバッガビリティ**: 関数名がスタックトレースに表示される
+3. **可読性の向上**: 関数宣言の方が意図が明確
+4. **ホイスティング**: 関数宣言は巻き上げられるため、使用順序の柔軟性
+
 ### Next.js との統合
 
 #### app/ ディレクトリの扱い
