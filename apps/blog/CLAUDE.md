@@ -240,6 +240,7 @@ Next.js は App Router でファイルベースのルーティングを使用し
 **重要**: 全てのページパスは `@/shared/config` の `ROUTES` 定数を通して使用する。直接文字列でパスを記述してはいけない。
 
 **正しい例**:
+
 ```typescript
 import { ROUTES } from '@/shared/config'
 
@@ -255,6 +256,7 @@ redirect(ROUTES.home)
 ```
 
 **間違った例**:
+
 ```typescript
 // ❌ 間違い: 直接文字列を使用
 <Link href="/">ホーム</Link>
@@ -282,7 +284,7 @@ redirect('/')
 export const ROUTES = {
   blog: {
     detail: (id: string) => `/blog/${id}`,
-    category: (category: string, page?: number) => 
+    category: (category: string, page?: number) =>
       `/blog/category/${category}${page ? `?page=${page}` : ''}`,
   },
 } as const
@@ -446,24 +448,26 @@ Feature-Sliced Design のためのパスエイリアス設定：
 #### 実際に発生した間違いの例
 
 **問題のあるコード**:
+
 ```typescript
 // shared/config/index.ts - 間違った例
 export { ROUTES } from './routes'
-export * from '../ui'  // ❌ 責務違反: config から ui を export
+export * from '../ui' // ❌ 責務違反: config から ui を export
 
 // widgets/header/Header.tsx
-import { ROUTES, Logo } from '@/shared/config'  // ❌ config から Logo をインポート
+import { ROUTES, Logo } from '@/shared/config' // ❌ config から Logo をインポート
 ```
 
 **正しいコード**:
+
 ```typescript
 // shared/config/index.ts - 正しい例
 export { ROUTES } from './routes'
 // ui は別途インポートする
 
 // widgets/header/Header.tsx
-import { ROUTES } from '@/shared/config'        // ✅ 設定は config から
-import { Logo } from '@/shared/ui'              // ✅ UI は ui から
+import { ROUTES } from '@/shared/config' // ✅ 設定は config から
+import { Logo } from '@/shared/ui' // ✅ UI は ui から
 ```
 
 #### なぜこの間違いが起こったのか
@@ -491,15 +495,17 @@ import { Logo } from '@/shared/ui'              // ✅ UI は ui から
 #### よくあるアンチパターン
 
 1. **config から UI コンポーネントを export**
+
    ```typescript
    // ❌ shared/config/index.ts
-   export * from '../ui'  // 責務違反
+   export * from '../ui' // 責務違反
    ```
 
 2. **ui から設定を export**
+
    ```typescript
    // ❌ shared/ui/index.ts
-   export { API_ENDPOINTS } from '../config'  // 責務違反
+   export { API_ENDPOINTS } from '../config' // 責務違反
    ```
 
 3. **lib にコンポーネントを配置**
@@ -511,11 +517,13 @@ import { Logo } from '@/shared/ui'              // ✅ UI は ui から
 
 #### インポート時の判断基準
 
-1. **責務の確認**: 
+1. **責務の確認**:
+
    - 「この機能はどのレイヤーの責務か？」
    - 「このインポートはレイヤーの責務に合致しているか？」
 
 2. **依存関係の確認**:
+
    - 「下位レイヤーから上位レイヤーに依存していないか？」
    - 「同じレイヤー間で直接依存していないか？」
 
@@ -526,11 +534,13 @@ import { Logo } from '@/shared/ui'              // ✅ UI は ui から
 #### 実装時のベストプラクティス
 
 1. **段階的な実装**:
+
    - まず適切なレイヤーにコンポーネントを作成
    - Public API (index.ts) を定義
    - 他のレイヤーから適切にインポート
 
 2. **責務の明確化**:
+
    - 各ファイルの先頭にコメントで責務を明記
    - README.md でレイヤーの役割を文書化
 
