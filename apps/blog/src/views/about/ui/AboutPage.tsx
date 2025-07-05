@@ -1,4 +1,4 @@
-export const AboutPage = () => {
+export function AboutPage() {
   return (
     <div>
       <h1>プロフィール</h1>
