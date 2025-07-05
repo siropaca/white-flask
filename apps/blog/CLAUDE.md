@@ -703,11 +703,13 @@ Type '{ id: string; }' is missing the following properties from type 'Promise<an
 #### 修正が必要な場合の対応
 
 1. **型エラーが発生した場合**:
+
    - 元となる GraphQL スキーマファイルを確認
    - バックエンドの GraphQL スキーマ定義を修正
    - `pnpm codegen` コマンドで再生成
 
 2. **ESLint エラーが発生した場合**:
+
    - eslint-disable コメントを追加するのではなく、codegen 設定を調整
    - 生成されるファイルに適切な lint ルールを適用
 
