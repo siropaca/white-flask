@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { ROUTES } from '@/shared/config'
 import { Logo } from '@/shared/ui'
 
-export const Header = () => {
+export function Header() {
   return (
     <header
       style={{

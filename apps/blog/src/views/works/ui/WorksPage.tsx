@@ -1,4 +1,4 @@
-export const WorksPage = () => {
+export function WorksPage() {
   return (
     <div>
       <h1>開発実績</h1>
