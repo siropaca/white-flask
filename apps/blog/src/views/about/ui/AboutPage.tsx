@@ -1,7 +1,7 @@
 export function AboutPage() {
   return (
     <div>
-      <h1>プロフィール</h1>
+      <h1>About</h1>
       <p>ここにコンテンツ</p>
     </div>
   )

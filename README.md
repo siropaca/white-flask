@@ -4,33 +4,6 @@ White Flask は pnpm workspace を使用したモノレポ構造による個人�
 
 ## 🏗️ アーキテクチャ概要
 
-### システム構成
-
-```mermaid
-graph TB
-    subgraph "Frontend Applications"
-        Blog[📝 Next.js Blog<br/>- ブログ表示<br/>- SEO 最適化<br/>- 静的生成]
-        Admin[⚙️ SvelteKit Admin<br/>- コンテンツ管理<br/>- ダッシュボード<br/>- 記事編集]
-    end
-
-    subgraph "Backend Services"
-        API[🚀 GraphQL API<br/>- Pothos Schema<br/>- GraphQL Yoga<br/>- Drizzle ORM]
-        DB[🗄️ PostgreSQL<br/>- Docker Compose<br/>- 記事データ<br/>- メタデータ]
-    end
-
-    Blog -->|GraphQL Query| API
-    Admin -->|GraphQL Mutation/Query| API
-    API -->|Drizzle ORM| DB
-
-    classDef frontend fill:#e1f5fe
-    classDef backend fill:#f3e5f5
-    classDef database fill:#e8f5e8
-
-    class Blog,Admin frontend
-    class API backend
-    class DB database
-```
-
 ### アプリケーション構成
 
 - **📝 apps/blog** - 公開ブログサイト (Next.js 15 + React 19)

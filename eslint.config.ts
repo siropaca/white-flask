@@ -40,6 +40,12 @@ const config: ConfigArray = tseslint.config(
       // コード品質
       'prefer-const': 'error',
       'no-var': 'error',
+
+      // スタイルルール
+      'padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: '*', next: 'return' },
+      ],
     },
   },
   {

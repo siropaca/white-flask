@@ -1,2 +1,2 @@
-export { graphqlFetcher } from './graphql-fetcher'
-export { getEnv } from './env'
+export { clientGraphqlFetcher, serverGraphqlFetcher } from './graphql-fetcher'
+export { getClientEnv, getServerEnv } from './env'

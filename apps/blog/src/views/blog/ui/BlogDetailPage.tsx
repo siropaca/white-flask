@@ -5,7 +5,7 @@ interface Props {
 export function BlogDetailPage({ id }: Props) {
   return (
     <div>
-      <h1>ブログ記事 ID: {id}</h1>
+      <h1>Blog ID: {id}</h1>
       <p>ここにコンテンツ</p>
     </div>
   )

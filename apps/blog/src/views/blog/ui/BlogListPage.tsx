@@ -6,7 +6,7 @@ export async function BlogListPage() {
 
   return (
     <div>
-      <h1>ブログ一覧</h1>
+      <h1>Blog</h1>
       <p>サーバーサイドでデータを取得しました</p>
       <p>GraphQL からの応答: {data?.hello}</p>
       <p>ここにコンテンツ</p>

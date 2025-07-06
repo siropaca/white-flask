@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
-// eslint-disable-next-line no-restricted-imports
+
 import * as schema from './schema/index.js'
 import { getEnv } from './libs/env.js'
 

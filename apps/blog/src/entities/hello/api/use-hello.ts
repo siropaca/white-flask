@@ -3,7 +3,7 @@
 import useSWR from 'swr'
 import { graphql } from '@/gql'
 import type { HelloQuery, HelloQueryVariables } from '@/gql/graphql'
-import { graphqlFetcher } from '@/shared/lib'
+import { clientGraphqlFetcher } from '@/shared/lib'
 
 const HELLO_QUERY = graphql(`
   query Hello {
@@ -13,6 +13,6 @@ const HELLO_QUERY = graphql(`
 
 export function useHello() {
   return useSWR<HelloQuery>('Hello', () =>
-    graphqlFetcher<HelloQuery, HelloQueryVariables>(HELLO_QUERY),
+    clientGraphqlFetcher<HelloQuery, HelloQueryVariables>(HELLO_QUERY),
   )
 }

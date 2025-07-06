@@ -5,24 +5,22 @@ import eslintConfigPrettier from 'eslint-config-prettier'
 
 const config: ConfigArray = tseslint.config(
   {
-    name: 'blog/files',
-    files: ['**/*.{js,mjs,cjs,ts,tsx}'],
+    name: 'backend/files',
+    files: ['**/*.{js,mjs,cjs,ts}'],
   },
   {
-    name: 'blog/ignores',
-    ignores: ['.next/', 'node_modules/', 'dist/', 'build/', '.turbo/', 'src/gql/'],
+    name: 'backend/ignores',
+    ignores: ['node_modules/', 'dist/', 'build/', '.turbo/', 'drizzle/'],
   },
   {
-    name: 'blog/javascript',
+    name: 'backend/javascript',
     ...js.configs.recommended,
   },
   ...tseslint.configs.recommended,
   {
-    name: 'blog/typescript',
-    files: ['**/*.{ts,tsx}'],
+    name: 'backend/typescript',
     languageOptions: {
       globals: {
-        ...globals.browser,
         ...globals.node,
         ...globals.es2022,
       },
@@ -31,7 +29,7 @@ const config: ConfigArray = tseslint.config(
     },
     rules: {
       // 基本的なルール
-      'no-console': 'error',
+      'no-console': 'off',
       'no-debugger': 'error',
       'no-alert': 'error',
 
@@ -53,18 +51,7 @@ const config: ConfigArray = tseslint.config(
     },
   },
   {
-    name: 'blog/react',
-    files: ['**/*.{jsx,tsx}'],
-    languageOptions: {
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-  },
-  {
-    name: 'blog/prettier',
+    name: 'backend/prettier',
     ...eslintConfigPrettier,
   },
 )
