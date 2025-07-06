@@ -11,6 +11,7 @@
     "dev": "tsx watch src/server.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "generate": "pnpm schema:generate && pnpm db:generate",
     "schema:generate": "tsx src/generate-schema.ts",
     "start": "node dist/server.js"
   },
