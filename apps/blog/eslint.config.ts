@@ -44,6 +44,12 @@ const config: ConfigArray = tseslint.config(
       'no-var': 'error',
       'object-shorthand': 'error',
       'prefer-arrow-callback': 'error',
+
+      // スタイルルール
+      'padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: '*', next: 'return' },
+      ],
     },
   },
   {

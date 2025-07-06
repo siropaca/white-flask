@@ -13,6 +13,7 @@ export const graphqlFetcher = <
   variables?: V,
 ): Promise<T> => {
   const queryString = typeof query === 'string' ? query : print(query)
+
   return request(
     env.GRAPHQL_ENDPOINT,
     queryString,
