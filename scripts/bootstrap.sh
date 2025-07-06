@@ -21,4 +21,12 @@ pnpm install
 echo "🪝 Installing git hooks..."
 pnpm lefthook install
 
+# Generate GraphQL schemas and client code
+echo "📄 Generating GraphQL schemas..."
+cd apps/backend
+pnpm generate
+cd ../blog
+pnpm generate
+cd ../..
+
 echo "✅ Bootstrap complete!"
