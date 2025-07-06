@@ -33,5 +33,8 @@ jobs:
       - name: Lint
         run: pnpm lint:all
 
+      - name: Generate GraphQL schema
+        run: pnpm --filter backend generate
+
       - name: Build
         run: pnpm build
