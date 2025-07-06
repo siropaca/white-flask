@@ -1,5 +1,4 @@
 import * as js from '@eslint/js'
-import stylistic from '@stylistic/eslint-plugin'
 import tseslint from 'typescript-eslint'
 import eslintConfigPrettier from 'eslint-config-prettier'
 import type { ConfigArray } from 'typescript-eslint'
