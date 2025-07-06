@@ -22,8 +22,13 @@ pnpm dev
 pnpm build
 
 # 全パッケージでリンティング実行
-pnpm lint
-pnpm lint:fix  # リンティング問題を自動修正
+pnpm lint       # ルートの ESLint のみ実行
+pnpm lint:all   # 全パッケージでリンティング実行
+pnpm lint:apps  # apps 配下のパッケージのみリンティング実行
+pnpm lint:fix   # リンティング問題を自動修正（全パッケージ）
+
+# 総合的なコード品質修正
+pnpm fix        # package.json ソート + リンティング修正 + フォーマット
 
 # コードフォーマット（Prettier）
 pnpm format       # 全ファイルをフォーマット
@@ -34,6 +39,13 @@ pnpm type-check
 
 # テスト実行
 pnpm test
+
+# その他のユーティリティコマンド
+pnpm clear      # ビルド成果物やnode_modulesを削除
+pnpm ncu        # 依存関係の更新確認
+pnpm sort       # package.json のソート
+pnpm sort:check # package.json ソート状態の確認
+pnpm start      # 本番環境での起動
 ```
 
 ### 初期セットアップ
@@ -78,6 +90,8 @@ docker-compose up -d
 - Commitlint による Conventional Commits 形式の強制
 - 全パッケージでのコード品質のための ESLint
 - Prettier によるコードフォーマットの統一（ESLint と競合しない設定）
+- pnpm workspace による効率的な依存関係管理
+- pnpm@10.12.1 以上、Node.js 24.2.0 以上を要求
 
 ## アプリケーション別ドキュメント
 
