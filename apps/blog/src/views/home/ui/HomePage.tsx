@@ -2,7 +2,7 @@
 
 import { useHello } from '@/entities/hello'
 
-export default function HomePage() {
+export function HomePage() {
   const { data, error, isLoading } = useHello()
 
   if (isLoading) return <div>Loading...</div>
