@@ -31,7 +31,7 @@ jobs:
         run: pnpm type-check
 
       - name: Lint
-        run: pnpm lint
+        run: pnpm lint:all
 
       - name: Build
         run: pnpm build
