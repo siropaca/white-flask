@@ -33,8 +33,11 @@ jobs:
       - name: Lint
         run: pnpm lint:all
 
-      - name: Generate GraphQL schema
+      - name: Generate
         run: pnpm --filter backend generate
+        env:
+          PORT: 4000
+          DATABASE_URL: postgresql://test:test@localhost:5432/test
 
       - name: Build
         run: pnpm build
