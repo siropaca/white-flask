@@ -19,5 +19,4 @@ mkdirSync(dirname(outputPath), { recursive: true })
 
 writeFileSync(outputPath, schemaAsString)
 
-// eslint-disable-next-line no-console
 console.log(`GraphQL schema has been generated to: ${outputPath}`)
