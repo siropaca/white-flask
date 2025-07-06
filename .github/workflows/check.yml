@@ -36,8 +36,10 @@ jobs:
       - name: Generate
         run: pnpm --filter backend generate
         env:
-          PORT: 4000
-          DATABASE_URL: postgresql://test:test@localhost:5432/test
+          PORT: 4000 # Dummy
+          DATABASE_URL: postgresql://test:test@localhost:5432/test # Dummy
 
       - name: Build
         run: pnpm build
+        env:
+          NEXT_PUBLIC_GRAPHQL_ENDPOINT: http://localhost:4000/graphql # Dummy
