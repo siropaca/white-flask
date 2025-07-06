@@ -1,4 +1,4 @@
-export const BlogListPage = () => {
+export function BlogListPage() {
   return (
     <div>
       <h1>ブログ一覧</h1>

@@ -5,23 +5,24 @@ import eslintConfigPrettier from 'eslint-config-prettier'
 
 const config: ConfigArray = tseslint.config(
   {
-    name: 'root/files',
+    name: 'blog/files',
     files: ['**/*.{js,mjs,cjs,ts,tsx}'],
   },
   {
-    name: 'root/ignores',
-    ignores: ['apps/', 'node_modules/', 'dist/', 'build/', '.turbo/', 'generated/', 'scripts/'],
+    name: 'blog/ignores',
+    ignores: ['.next/', 'node_modules/', 'dist/', 'build/', '.turbo/', 'src/gql/'],
   },
   {
-    name: 'root/javascript',
+    name: 'blog/javascript',
     ...js.configs.recommended,
   },
   ...tseslint.configs.recommended,
   {
-    name: 'root/typescript',
+    name: 'blog/typescript',
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       globals: {
+        ...globals.browser,
         ...globals.node,
         ...globals.es2022,
       },
@@ -32,6 +33,7 @@ const config: ConfigArray = tseslint.config(
       // 基本的なルール
       'no-console': 'error',
       'no-debugger': 'error',
+      'no-alert': 'error',
 
       // TypeScript 関連
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
@@ -40,10 +42,23 @@ const config: ConfigArray = tseslint.config(
       // コード品質
       'prefer-const': 'error',
       'no-var': 'error',
+      'object-shorthand': 'error',
+      'prefer-arrow-callback': 'error',
     },
   },
   {
-    name: 'root/prettier',
+    name: 'blog/react',
+    files: ['**/*.{jsx,tsx}'],
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+  },
+  {
+    name: 'blog/prettier',
     ...eslintConfigPrettier,
   },
 )

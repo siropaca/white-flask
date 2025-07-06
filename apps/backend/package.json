@@ -11,6 +11,7 @@
     "dev": "tsx watch src/server.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "generate": "pnpm schema:generate && pnpm db:generate",
     "schema:generate": "tsx src/generate-schema.ts",
     "start": "node dist/server.js"
   },
@@ -26,7 +27,6 @@
     "@types/node": "24.0.7",
     "@types/pg": "8.15.4",
     "drizzle-kit": "0.31.4",
-    "eslint": "9.30.0",
     "tsx": "4.20.3",
     "typescript": "5.8.3"
   }

@@ -1,0 +1,5 @@
+# Generated GraphQL files
+src/gql/
+
+# Environment variables
+.env

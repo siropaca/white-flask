@@ -175,6 +175,65 @@ feature-name/
 - **定数**: UPPER_SNAKE_CASE (`API_ENDPOINTS.ts`)
 - **型定義**: PascalCase (`Post.types.ts`)
 
+#### コンポーネント定義規則
+
+- **.tsx ファイルのコンポーネントは必ず function 型で定義すること**
+
+**正しい例**:
+
+```typescript
+// ✅ 正しい: function 型での定義
+export default function PostCard({ title, content }: Props) {
+  return (
+    <div>
+      <h2>{title}</h2>
+      <p>{content}</p>
+    </div>
+  )
+}
+
+// ✅ 正しい: 名前付き function での定義
+export function CategoryList({ categories }: Props) {
+  return (
+    <ul>
+      {categories.map(category => (
+        <li key={category.id}>{category.name}</li>
+      ))}
+    </ul>
+  )
+}
+```
+
+**間違った例**:
+
+```typescript
+// ❌ 間違い: アロー関数での定義
+const PostCard = ({ title, content }: Props) => {
+  return (
+    <div>
+      <h2>{title}</h2>
+      <p>{content}</p>
+    </div>
+  )
+}
+
+// ❌ 間違い: アロー関数の変数宣言
+export const CategoryList = ({ categories }: Props) => (
+  <ul>
+    {categories.map(category => (
+      <li key={category.id}>{category.name}</li>
+    ))}
+  </ul>
+)
+```
+
+**理由**:
+
+1. **一貫性の確保**: プロジェクト全体でのコード統一性
+2. **デバッガビリティ**: 関数名がスタックトレースに表示される
+3. **可読性の向上**: 関数宣言の方が意図が明確
+4. **ホイスティング**: 関数宣言は巻き上げられるため、使用順序の柔軟性
+
 ### Next.js との統合
 
 #### app/ ディレクトリの扱い
@@ -232,6 +291,74 @@ pnpm lint     # ESLint 実行
 ## ルーティング
 
 Next.js は App Router でファイルベースのルーティングを使用します。ルートは `src/app/` ディレクトリで定義されます。
+
+### ルーティングのベストプラクティス
+
+#### ROUTES 定数の使用を徹底する
+
+**重要**: 全てのページパスは `@/shared/config` の `ROUTES` 定数を通して使用する。直接文字列でパスを記述してはいけない。
+
+**正しい例**:
+
+```typescript
+import { ROUTES } from '@/shared/config'
+
+// ✅ 正しい: ROUTES を使用
+<Link href={ROUTES.home}>ホーム</Link>
+<Link href={ROUTES.blog.index}>ブログ一覧</Link>
+<Link href={ROUTES.blog.detail('post-id')}>記事詳細</Link>
+<Link href={ROUTES.about}>プロフィール</Link>
+
+// Next.js の router でも同様
+router.push(ROUTES.blog.index)
+redirect(ROUTES.home)
+```
+
+**間違った例**:
+
+```typescript
+// ❌ 間違い: 直接文字列を使用
+<Link href="/">ホーム</Link>
+<Link href="/blog">ブログ一覧</Link>
+<Link href={`/blog/${id}`}>記事詳細</Link>
+
+// ❌ 間違い: router でも直接文字列を使用
+router.push('/blog')
+redirect('/')
+```
+
+#### ROUTES 定数の利点
+
+1. **一元管理**: 全てのルートが一箇所で管理され、変更時の影響範囲が明確
+2. **型安全性**: TypeScript により、存在しないルートの参照でコンパイルエラー
+3. **リファクタリング安全性**: IDE の refactor 機能でルート名の一括変更が可能
+4. **動的ルートの型安全性**: パラメータ付きルートも型安全に使用可能
+
+#### 動的ルートの扱い
+
+動的ルートは関数として定義し、パラメータを受け取る形にする：
+
+```typescript
+// shared/config/routes.ts
+export const ROUTES = {
+  blog: {
+    detail: (id: string) => `/blog/${id}`,
+    category: (category: string, page?: number) =>
+      `/blog/category/${category}${page ? `?page=${page}` : ''}`,
+  },
+} as const
+
+// 使用例
+<Link href={ROUTES.blog.detail('my-first-post')}>
+<Link href={ROUTES.blog.category('tech', 2)}>
+```
+
+#### 実装時のチェックポイント
+
+- [ ] 新しいページを作成時は ROUTES に定数を追加したか
+- [ ] Link コンポーネントや router で ROUTES を使用しているか
+- [ ] 直接文字列でパスを記述していないか
+- [ ] 動的ルートのパラメータは型安全に定義されているか
 
 ## データフェッチング
 
@@ -370,6 +497,135 @@ Feature-Sliced Design のためのパスエイリアス設定：
 - [ ] 同一レイヤー間の直接的な依存がないか
 - [ ] ビジネスロジックが適切なレイヤーに配置されているか
 - [ ] スライスの責務が明確に定義されているか
+- [ ] 各インポートが適切なレイヤーから行われているか
+- [ ] レイヤー間の責務が混在していないか
+
+## FSD 実装時の重要な注意点とアンチパターン
+
+### レイヤー責務の混在を避ける
+
+#### 実際に発生した間違いの例
+
+**問題のあるコード**:
+
+```typescript
+// shared/config/index.ts - 間違った例
+export { ROUTES } from './routes'
+export * from '../ui' // ❌ 責務違反: config から ui を export
+
+// widgets/header/Header.tsx
+import { ROUTES, Logo } from '@/shared/config' // ❌ config から Logo をインポート
+```
+
+**正しいコード**:
+
+```typescript
+// shared/config/index.ts - 正しい例
+export { ROUTES } from './routes'
+// ui は別途インポートする
+
+// widgets/header/Header.tsx
+import { ROUTES } from '@/shared/config' // ✅ 設定は config から
+import { Logo } from '@/shared/ui' // ✅ UI は ui から
+```
+
+#### なぜこの間違いが起こったのか
+
+1. **便利さを優先した思考**: 「一つのインポート文で済ませたい」という短絡的な考え
+2. **責務の軽視**: FSD の各レイヤーの責務を軽視し、表面的な実装に走った
+3. **アーキテクチャ原則の軽視**: コードの簡潔性をアーキテクチャの原則より優先した
+
+#### 正しいアプローチ
+
+1. **責務ベースの判断**: インポート前に「このコンポーネント/関数はどのレイヤーの責務か？」を必ず確認
+2. **原則の優先**: 便利さよりもアーキテクチャの原則を優先
+3. **複数インポートの許容**: 複数のレイヤーから import することを恐れない
+
+### shared レイヤー内の責務分離
+
+#### 各サブディレクトリの明確な責務
+
+- **shared/config/**: 設定ファイル、定数、環境変数、ルート定義
+- **shared/ui/**: 再利用可能な UI コンポーネント（Button、Logo、Input など）
+- **shared/lib/**: ユーティリティ関数、ヘルパー関数
+- **shared/api/**: API クライアントの設定、共通リクエスト処理
+- **shared/types/**: 共通の型定義
+
+#### よくあるアンチパターン
+
+1. **config から UI コンポーネントを export**
+
+   ```typescript
+   // ❌ shared/config/index.ts
+   export * from '../ui' // 責務違反
+   ```
+
+2. **ui から設定を export**
+
+   ```typescript
+   // ❌ shared/ui/index.ts
+   export { API_ENDPOINTS } from '../config' // 責務違反
+   ```
+
+3. **lib にコンポーネントを配置**
+   ```typescript
+   // ❌ shared/lib/Logo.tsx - UI コンポーネントは ui/ に配置すべき
+   ```
+
+### 実装前の確認事項
+
+#### インポート時の判断基準
+
+1. **責務の確認**:
+
+   - 「この機能はどのレイヤーの責務か？」
+   - 「このインポートはレイヤーの責務に合致しているか？」
+
+2. **依存関係の確認**:
+
+   - 「下位レイヤーから上位レイヤーに依存していないか？」
+   - 「同じレイヤー間で直接依存していないか？」
+
+3. **将来の拡張性**:
+   - 「この設計は将来の機能追加に対応できるか？」
+   - 「責務が明確で理解しやすいか？」
+
+#### 実装時のベストプラクティス
+
+1. **段階的な実装**:
+
+   - まず適切なレイヤーにコンポーネントを作成
+   - Public API (index.ts) を定義
+   - 他のレイヤーから適切にインポート
+
+2. **責務の明確化**:
+
+   - 各ファイルの先頭にコメントで責務を明記
+   - README.md でレイヤーの役割を文書化
+
+3. **定期的な見直し**:
+   - コードレビュー時に責務の確認
+   - リファクタリング時にアーキテクチャの改善
+
+### 防止策とチェックポイント
+
+#### コード作成時
+
+- [ ] 新しいコンポーネント/関数の責務を明確に定義したか
+- [ ] 適切なレイヤーに配置したか
+- [ ] Public API を正しく定義したか
+
+#### インポート時
+
+- [ ] インポート元のレイヤーが適切な責務を持っているか
+- [ ] レイヤー間の依存関係が正しい方向か
+- [ ] 便利さよりも原則を優先しているか
+
+#### コードレビュー時
+
+- [ ] 各インポートの妥当性を確認したか
+- [ ] レイヤー間の責務混在がないか
+- [ ] 将来の拡張性を考慮した設計か
 
 ## Next.js 15 対応の重要な注意点
 
@@ -430,3 +686,54 @@ Type '{ id: string; }' is missing the following properties from type 'Promise<an
 ```
 
 必ず Context7 MCP で最新の Next.js ドキュメントを確認し、params の正しい使用方法を適用してください。
+
+## 自動生成ファイルの管理
+
+### @/apps/blog/src/gql ディレクトリの取り扱い
+
+**重要**: @/apps/blog/src/gql ディレクトリ配下のファイルは GraphQL Code Generator によって自動生成されるため、手動で編集してはいけません。
+
+#### 自動生成されるファイル
+
+- **graphql.ts**: GraphQL 型定義とクエリ型
+- **gql.ts**: GraphQL クエリ文字列のタグ付きテンプレート
+- **fragment-masking.ts**: GraphQL フラグメントマスキング機能
+- **index.ts**: パブリック API のエクスポート
+
+#### 修正が必要な場合の対応
+
+1. **型エラーが発生した場合**:
+
+   - 元となる GraphQL スキーマファイルを確認
+   - バックエンドの GraphQL スキーマ定義を修正
+   - `pnpm codegen` コマンドで再生成
+
+2. **ESLint エラーが発生した場合**:
+
+   - eslint-disable コメントを追加するのではなく、codegen 設定を調整
+   - 生成されるファイルに適切な lint ルールを適用
+
+3. **インポートエラーが発生した場合**:
+   - 自動生成されたファイルは直接修正せず、使用側のコードを調整
+   - 必要に応じて codegen の設定を見直し
+
+#### 再生成コマンド
+
+```bash
+# GraphQL 型定義の再生成
+pnpm codegen
+
+# または backend でスキーマを更新後
+cd apps/backend
+pnpm schema:generate
+cd ../blog
+pnpm codegen
+```
+
+#### 注意点
+
+- **絶対に手動編集しない**: 自動生成ファイルへの手動編集は次回の生成時に失われます
+- **Git 管理**: 自動生成ファイルも Git 管理対象ですが、手動でのコミットは避ける
+- **コードレビュー**: 自動生成ファイルの変更は、元となるスキーマ変更と合わせて確認する
+
+この原則により、GraphQL スキーマとクライアントコードの整合性が保たれ、型安全性が確保されます。
