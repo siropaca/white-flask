@@ -8,6 +8,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "generate": "graphql-codegen",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "start": "next start --port 3001"
   },
   "dependencies": {
@@ -19,12 +21,18 @@
     "swr": "2.3.2"
   },
   "devDependencies": {
+    "@eslint/js": "9.18.0",
     "@graphql-codegen/cli": "5.0.5",
     "@graphql-codegen/client-preset": "4.8.3",
+    "@types/eslint-config-prettier": "6.11.3",
     "@types/node": "24.0.7",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
+    "eslint": "9.18.0",
+    "eslint-config-prettier": "10.0.1",
+    "globals": "15.14.0",
     "graphql": "16.9.0",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.35.1"
   }
 }
