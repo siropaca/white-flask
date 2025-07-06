@@ -17,16 +17,17 @@ export function Header() {
           <Logo />
         </Link>
       </div>
+
       <nav>
-        <Link href={ROUTES.home}>ホーム</Link>
+        <Link href={ROUTES.home}>Home</Link>
         {' | '}
-        <Link href={ROUTES.blog.index}>ブログ</Link>
+        <Link href={ROUTES.blog.index}>Blog</Link>
         {' | '}
-        <Link href={ROUTES.works}>開発実績</Link>
+        <Link href={ROUTES.works}>Works</Link>
         {' | '}
-        <Link href={ROUTES.about}>プロフィール</Link>
+        <Link href={ROUTES.about}>About</Link>
         {' | '}
-        <Link href={ROUTES.contact}>問い合わせ</Link>
+        <Link href={ROUTES.contact}>Contact</Link>
       </nav>
     </header>
   )
