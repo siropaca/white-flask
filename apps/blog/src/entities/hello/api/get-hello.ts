@@ -1,6 +1,6 @@
 import { graphql } from '@/gql'
 import type { HelloQuery, HelloQueryVariables } from '@/gql/graphql'
-import { graphqlFetcher } from '@/shared/lib'
+import { serverGraphqlFetcher } from '@/shared/lib'
 
 const HELLO_QUERY = graphql(`
   query Hello {
@@ -13,5 +13,5 @@ const HELLO_QUERY = graphql(`
  * Server Components から呼び出される
  */
 export async function getHello(): Promise<HelloQuery> {
-  return graphqlFetcher<HelloQuery, HelloQueryVariables>(HELLO_QUERY)
+  return serverGraphqlFetcher<HelloQuery, HelloQueryVariables>(HELLO_QUERY)
 }
