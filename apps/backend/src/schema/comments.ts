@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, timestamp, pgEnum } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, varchar, text, timestamp, pgEnum, index } from 'drizzle-orm/pg-core'
 import { posts } from './posts'
 
 export const commentStatusEnum = pgEnum('comment_status', ['pending', 'approved', 'spam'])
@@ -13,7 +13,9 @@ export const comments = pgTable('comments', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   deletedAt: timestamp('deleted_at'),
-})
+}, (table) => [
+  index('comments_status_idx').on(table.status),
+])
 
 export type Comment = typeof comments.$inferSelect
 export type NewComment = typeof comments.$inferInsert

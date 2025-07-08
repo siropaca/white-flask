@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, timestamp, integer, pgEnum } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, varchar, text, timestamp, integer, pgEnum, index } from 'drizzle-orm/pg-core'
 
 export const postStatusEnum = pgEnum('post_status', ['draft', 'published', 'archived'])
 
@@ -14,7 +14,10 @@ export const posts = pgTable('posts', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   deletedAt: timestamp('deleted_at'),
-})
+}, (table) => [
+  index('posts_like_count_idx').on(table.likeCount),
+  index('posts_status_idx').on(table.status),
+])
 
 export type Post = typeof posts.$inferSelect
 export type NewPost = typeof posts.$inferInsert
