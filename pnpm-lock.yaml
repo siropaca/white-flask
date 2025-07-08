@@ -141,6 +141,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: 4.1.10
         version: 4.1.10
+      clsx:
+        specifier: 2.1.1
+        version: 2.1.1
       graphql-request:
         specifier: 7.2.0
         version: 7.2.0(graphql@16.9.0)
