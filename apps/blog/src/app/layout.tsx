@@ -1,6 +1,8 @@
 import { Header } from '@/widgets/header'
 import { Footer } from '@/widgets/footer'
 
+import '@/styles/globals.css'
+
 interface Props {
   children: React.ReactNode
 }
