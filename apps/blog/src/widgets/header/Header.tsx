@@ -13,7 +13,7 @@ export function Header() {
       }}
     >
       <div>
-        <Link href={ROUTES.home} style={{ textDecoration: 'none' }}>
+        <Link href={ROUTES.home}>
           <Logo />
         </Link>
       </div>
