@@ -62,7 +62,7 @@ jobs:
           # claude_env: |
           #   NODE_ENV: test
 
-          allowed_tools: 'Bash(*)'
+          allowed_tools: 'Bash'
           direct_prompt: |
             日本語で回答してください。
             プルリクエストは日本語で書いてください。
