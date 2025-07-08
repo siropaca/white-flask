@@ -7,6 +7,7 @@ export * from './tags'
 export * from './post-categories'
 export * from './post-tags'
 export * from './comments'
+export * from './likes'
 
 // Import tables for relations
 import { posts } from './posts'
@@ -15,12 +16,14 @@ import { tags } from './tags'
 import { postCategories } from './post-categories'
 import { postTags } from './post-tags'
 import { comments } from './comments'
+import { likes } from './likes'
 
 // Define relationships
 export const postsRelations = relations(posts, ({ many }) => ({
   categories: many(postCategories),
   tags: many(postTags),
   comments: many(comments),
+  likes: many(likes),
 }))
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
@@ -56,6 +59,13 @@ export const postTagsRelations = relations(postTags, ({ one }) => ({
 export const commentsRelations = relations(comments, ({ one }) => ({
   post: one(posts, {
     fields: [comments.postId],
+    references: [posts.id],
+  }),
+}))
+
+export const likesRelations = relations(likes, ({ one }) => ({
+  post: one(posts, {
+    fields: [likes.postId],
     references: [posts.id],
   }),
 }))
