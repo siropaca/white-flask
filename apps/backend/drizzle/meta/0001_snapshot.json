@@ -1,5 +1,5 @@
 {
-  "id": "c23a8e17-dc95-43d6-9164-f73003e18550",
+  "id": "55c124da-0006-4ca8-a323-44b7329271e3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -20,12 +20,6 @@
           "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -87,25 +81,11 @@
           "primaryKey": false,
           "notNull": true
         },
-        "author_email": {
-          "name": "author_email",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
         "content": {
           "name": "content",
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "status": {
-          "name": "status",
-          "type": "comment_status",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'pending'"
         },
         "created_at": {
           "name": "created_at",
@@ -129,11 +109,11 @@
         }
       },
       "indexes": {
-        "comments_status_idx": {
-          "name": "comments_status_idx",
+        "comments_post_id_idx": {
+          "name": "comments_post_id_idx",
           "columns": [
             {
-              "expression": "status",
+              "expression": "post_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -353,7 +333,38 @@
           "notNull": true
         }
       },
-      "indexes": {},
+      "indexes": {
+        "post_categories_post_id_idx": {
+          "name": "post_categories_post_id_idx",
+          "columns": [
+            {
+              "expression": "post_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "post_categories_category_id_idx": {
+          "name": "post_categories_category_id_idx",
+          "columns": [
+            {
+              "expression": "category_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "post_categories_post_id_posts_id_fk": {
           "name": "post_categories_post_id_posts_id_fk",
@@ -413,7 +424,38 @@
           "notNull": true
         }
       },
-      "indexes": {},
+      "indexes": {
+        "post_tags_post_id_idx": {
+          "name": "post_tags_post_id_idx",
+          "columns": [
+            {
+              "expression": "post_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "post_tags_tag_id_idx": {
+          "name": "post_tags_tag_id_idx",
+          "columns": [
+            {
+              "expression": "tag_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "post_tags_post_id_posts_id_fk": {
           "name": "post_tags_post_id_posts_id_fk",
@@ -458,15 +500,6 @@
     }
   },
   "enums": {
-    "public.comment_status": {
-      "name": "comment_status",
-      "schema": "public",
-      "values": [
-        "pending",
-        "approved",
-        "spam"
-      ]
-    },
     "public.post_status": {
       "name": "post_status",
       "schema": "public",

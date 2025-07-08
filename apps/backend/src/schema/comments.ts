@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, timestamp } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, varchar, text, timestamp, index } from 'drizzle-orm/pg-core'
 import { posts } from './posts'
 
 export const comments = pgTable('comments', {
@@ -11,7 +11,9 @@ export const comments = pgTable('comments', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   deletedAt: timestamp('deleted_at'),
-})
+}, (table) => [
+  index('comments_post_id_idx').on(table.postId),
+])
 
 export type Comment = typeof comments.$inferSelect
 export type NewComment = typeof comments.$inferInsert
