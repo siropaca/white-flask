@@ -1,12 +1,17 @@
-name: Check
+name: Frontend Build Check
 
 on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'apps/blog/**'
+      - 'apps/admin/**'
+      - 'pnpm-lock.yaml'
+      - 'package.json'
 
 jobs:
-  lint-and-build:
+  frontend-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,20 +32,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Type check
-        run: pnpm type-check
-
-      - name: Lint
-        run: pnpm lint:all
-
-      - name: Generate
-        run: pnpm --filter backend generate
-        env:
-          PORT: 4000 # Dummy
-          DATABASE_URL: postgresql://test:test@localhost:5432/test # Dummy
-
-      - name: Build
-        run: pnpm build
+      - name: Build Frontend
+        run: pnpm --filter blog --filter admin build
         env:
           NEXT_PUBLIC_GRAPHQL_ENDPOINT: http://localhost:4000/graphql # Dummy
           INTERNAL_GRAPHQL_ENDPOINT: http://localhost:4000/graphql # Dummy

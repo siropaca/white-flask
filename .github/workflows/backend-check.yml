@@ -1,0 +1,93 @@
+name: Backend Check
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'apps/backend/**'
+      - 'pnpm-lock.yaml'
+      - 'package.json'
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: white_flask_db
+          POSTGRES_USER: white_flask
+          POSTGRES_PASSWORD: white_flask_password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.2.0
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check (Backend)
+        run: pnpm --filter backend type-check
+
+      - name: Lint (Backend)
+        run: pnpm --filter backend lint
+
+      - name: Generate
+        run: pnpm --filter backend generate
+        env:
+          PORT: 4000
+          DATABASE_URL: postgresql://white_flask:white_flask_password@localhost:5432/white_flask_db
+
+      - name: Build (Backend)
+        run: pnpm --filter backend build
+
+      - name: Database Migration
+        run: pnpm --filter backend db:migrate
+        env:
+          DATABASE_URL: postgresql://white_flask:white_flask_password@localhost:5432/white_flask_db
+
+      - name: Start Backend (Health Check)
+        run: |
+          # Start backend in background
+          pnpm --filter backend start &
+          BACKEND_PID=$!
+          
+          # Wait for backend to be ready (max 30 seconds)
+          echo "Waiting for backend to start..."
+          for i in {1..30}; do
+            if curl -f http://localhost:4000/graphql >/dev/null 2>&1; then
+              echo "Backend is ready!"
+              kill $BACKEND_PID
+              exit 0
+            fi
+            echo "Attempt $i/30 - Backend not ready yet..."
+            sleep 1
+          done
+          
+          # If we get here, backend didn't start properly
+          echo "Backend failed to start within 30 seconds"
+          kill $BACKEND_PID 2>/dev/null || true
+          exit 1
+        env:
+          PORT: 4000
+          DATABASE_URL: postgresql://white_flask:white_flask_password@localhost:5432/white_flask_db
