@@ -30,6 +30,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        env:
+          PORT: 4000 # Dummy
+          DATABASE_URL: postgresql://white_flask:white_flask_password@localhost:5432/white_flask_db # Dummy
 
       - name: Generate GraphQL Schema
         run: pnpm --filter backend schema:generate
