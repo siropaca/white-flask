@@ -71,7 +71,7 @@ jobs:
           # Start backend in background
           pnpm --filter backend start &
           BACKEND_PID=$!
-          
+
           # Wait for backend to be ready (max 30 seconds)
           echo "Waiting for backend to start..."
           for i in {1..30}; do
@@ -83,7 +83,7 @@ jobs:
             echo "Attempt $i/30 - Backend not ready yet..."
             sleep 1
           done
-          
+
           # If we get here, backend didn't start properly
           echo "Backend failed to start within 30 seconds"
           kill $BACKEND_PID 2>/dev/null || true

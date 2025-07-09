@@ -31,6 +31,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate GraphQL Schema
+        run: pnpm --filter backend schema:generate
+
       - name: Build Blog
         run: pnpm --filter blog build
         env:
