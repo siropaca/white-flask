@@ -1,22 +1,22 @@
 import { relations } from 'drizzle-orm'
 
 // Export all tables
-export * from './posts'
-export * from './categories'
-export * from './tags'
-export * from './post-categories'
-export * from './post-tags'
-export * from './comments'
-export * from './likes'
+export * from './posts.js'
+export * from './categories.js'
+export * from './tags.js'
+export * from './post-categories.js'
+export * from './post-tags.js'
+export * from './comments.js'
+export * from './likes.js'
 
 // Import tables for relations
-import { posts } from './posts'
-import { categories } from './categories'
-import { tags } from './tags'
-import { postCategories } from './post-categories'
-import { postTags } from './post-tags'
-import { comments } from './comments'
-import { likes } from './likes'
+import { posts } from './posts.js'
+import { categories } from './categories.js'
+import { tags } from './tags.js'
+import { postCategories } from './post-categories.js'
+import { postTags } from './post-tags.js'
+import { comments } from './comments.js'
+import { likes } from './likes.js'
 
 // Define relationships
 export const postsRelations = relations(posts, ({ many }) => ({
