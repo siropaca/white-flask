@@ -1,17 +1,16 @@
-name: Frontend Build Check
+name: Admin Build Check
 
 on:
   pull_request:
     branches:
       - main
     paths:
-      - 'apps/blog/**'
       - 'apps/admin/**'
       - 'pnpm-lock.yaml'
       - 'package.json'
 
 jobs:
-  frontend-build:
+  admin-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,8 +31,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build Frontend
-        run: pnpm --filter blog --filter admin build
-        env:
-          NEXT_PUBLIC_GRAPHQL_ENDPOINT: http://localhost:4000/graphql # Dummy
-          INTERNAL_GRAPHQL_ENDPOINT: http://localhost:4000/graphql # Dummy
+      - name: Build Admin
+        run: pnpm --filter admin build
