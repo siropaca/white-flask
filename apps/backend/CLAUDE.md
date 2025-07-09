@@ -127,3 +127,55 @@ pnpm schema:generate
 - `src/generate-schema.ts` - スキーマ生成スクリプト
 - `graphql` パッケージの `printSchema` と `lexicographicSortSchema` を使用
 - 生成されたファイルは Git 管理対象外（`/generated` ディレクトリ全体が `.gitignore` に含まれる）
+
+## ES Modules 設定
+
+このプロジェクトは ES Modules (ESM) を使用しています。以下の設定と規約に従っています：
+
+### TypeScript 設定
+
+`tsconfig.json` で以下の設定を使用：
+
+```json
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  }
+}
+```
+
+### インポート規約
+
+**重要**: ES Modules では、相対インポートに必ず `.js` 拡張子を付ける必要があります。
+
+```typescript
+// ❌ 間違い
+import { posts } from './posts'
+
+// ✅ 正しい
+import { posts } from './posts.js'
+```
+
+この規約は TypeScript ファイル（`.ts`）でも適用されます。TypeScript コンパイラは `.ts` ファイルを `.js` にコンパイルするため、インポート文では `.js` 拡張子を使用します。
+
+### よくあるエラーと対処法
+
+#### ERR_MODULE_NOT_FOUND エラー
+
+```
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/path/to/file' imported from /path/to/another/file.js
+```
+
+**原因**: 相対インポートに `.js` 拡張子が付いていない
+
+**解決策**: すべての相対インポートに `.js` 拡張子を追加
+
+### ビルドとデプロイ
+
+ES Modules の設定により、以下のコマンドでビルドと実行が可能：
+
+```bash
+pnpm build  # TypeScript を ES Modules 形式でコンパイル
+pnpm start  # Node.js で ES Modules として実行
+```
