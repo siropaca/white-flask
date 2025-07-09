@@ -7,7 +7,7 @@
     "build": "pnpm run -r build",
     "clear": "rimraf .svelte-kit build node_modules generated dist .next gql *.tsbuildinfo apps/*/node_modules apps/*/build apps/*/dist apps/*/.svelte-kit apps/*/.next apps/*/gql apps/*/*.tsbuildinfo",
     "dev": "pnpm run --parallel dev",
-    "fix": "pnpm sort && pnpm lint:fix:all && pnpm format",
+    "fix": "pnpm sort && pnpm lint:fix && pnpm format",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",

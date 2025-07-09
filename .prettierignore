@@ -43,6 +43,7 @@ apps/backend/dist
 
 # 各パッケージの自動生成ファイル
 apps/blog/src/gql/
+apps/backend/drizzle
 
 # その他
 *.min.js
