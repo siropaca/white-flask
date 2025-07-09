@@ -64,6 +64,7 @@ jobs:
       - name: Database Migration
         run: pnpm --filter backend db:migrate
         env:
+          PORT: 4000
           DATABASE_URL: postgresql://white_flask:white_flask_password@localhost:5432/white_flask_db
 
       - name: Start Backend (Health Check)
