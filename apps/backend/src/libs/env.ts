@@ -3,16 +3,16 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 interface Env {
-  PORT: string
+  PORT: number
   DATABASE_URL: string
 }
 
-export function getEnv(): Env {
-  const requiredEnvVars = {
-    PORT: process.env.PORT,
-    DATABASE_URL: process.env.DATABASE_URL,
-  }
+const requiredEnvVars = {
+  PORT: process.env.PORT,
+  DATABASE_URL: process.env.DATABASE_URL,
+} as const
 
+export function getEnv(): Env {
   // 必須環境変数のチェック
   const missingVars: string[] = []
   for (const [key, value] of Object.entries(requiredEnvVars)) {
@@ -26,7 +26,7 @@ export function getEnv(): Env {
   }
 
   return {
-    PORT: requiredEnvVars.PORT as string,
+    PORT: Number(process.env.PORT),
     DATABASE_URL: requiredEnvVars.DATABASE_URL as string,
-  } as const
+  }
 }
