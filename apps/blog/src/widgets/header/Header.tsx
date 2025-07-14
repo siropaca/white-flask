@@ -7,7 +7,7 @@ export function Header() {
     <header className="h-header flex items-center justify-between px-6">
       <div>
         <Link href={ROUTES.home}>
-          <Logo height={26} />
+          <Logo height={28} />
         </Link>
       </div>
 
