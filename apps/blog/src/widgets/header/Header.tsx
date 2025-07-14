@@ -4,17 +4,10 @@ import { Logo } from '@/shared/ui'
 
 export function Header() {
   return (
-    <header
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '1rem',
-      }}
-    >
+    <header className="h-header flex items-center justify-between px-6">
       <div>
         <Link href={ROUTES.home}>
-          <Logo />
+          <Logo height={28} />
         </Link>
       </div>
 
