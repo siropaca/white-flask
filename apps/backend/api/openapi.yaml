@@ -7,6 +7,19 @@ servers:
   - url: http://localhost:8080
     description: Local development server
 paths:
+  /:
+    get:
+      operationId: getRoot
+      summary: Root endpoint
+      description: Returns server information
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: This is white-flask server
   /hello:
     get:
       operationId: getHello
