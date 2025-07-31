@@ -48,6 +48,12 @@ coverage
 *.pem
 .vercel
 
+# Generated files
+generated/
+
+# Go binaries
+apps/backend/backend
+
 # Claude
 /.claude/settings.local.json
 

@@ -4,19 +4,21 @@
 
 ## 概要
 
-バックエンドアプリケーションは Gin フレームワークで構築された REST API サーバーです。ブログと管理画面アプリケーションのデータレイヤーとして機能します。
+バックエンドアプリケーションは Gin フレームワークと oapi-codegen を使用した OpenAPI ファーストな REST API サーバーです。ブログと管理画面アプリケーションのデータレイヤーとして機能します。
 
 ## 技術スタック
 
 - **言語**: Go 1.23.11
 - **Web フレームワーク**: Gin (github.com/gin-gonic/gin)
+- **コード生成**: oapi-codegen
+- **API 仕様**: OpenAPI 3.0
 - **ポート**: 3003
-- **モジュール名**: `github.com/siropaca/white-flask/backend`
 
 ## アーキテクチャ方針
 
 ### API 設計
 
+- OpenAPI ファーストアプローチ：仕様を先に定義してからコードを生成
 - RESTful な設計原則に従う
 - JSON でのデータ交換を基本とする
 - 適切な HTTP ステータスコードを返す
@@ -77,11 +79,42 @@ go build -ldflags="-s -w" -o backend
 ### 環境変数
 
 - `PORT`: サーバーポート（デフォルト: 3003）
-- `GIN_MODE`: release/debug/test
 - その他、環境固有の設定は環境変数で管理
+
+## API 開発ワークフロー
+
+### 新しいエンドポイントの追加手順
+
+1. **OpenAPI スペックの更新**
+
+   - @/apps/backend/api/openapi.yaml に新しいエンドポイントを定義
+   - リクエスト/レスポンスのスキーマを components/schemas に追加
+
+2. **コード生成**
+
+   ```bash
+   oapi-codegen -config oapi-codegen.yaml api/openapi.yaml
+   ```
+
+3. **ハンドラー実装**
+
+   - @/apps/backend/handler/handler.go に生成されたインターフェースのメソッドを実装
+
+4. **テスト**
+   - 単体テストを作成
+   - 統合テストを作成
+
+## ディレクトリ構造
+
+- @/apps/backend/api/ - OpenAPI スペック
+- @/apps/backend/generated/ - 自動生成コード（Git 管理対象外）
+- @/apps/backend/handler/ - ハンドラー実装
+- @/apps/backend/main.go - エントリーポイント
 
 ## 重要な注意事項
 
-1. **Gin のモード設定**: 本番環境では必ず `gin.SetMode(gin.ReleaseMode)` を設定すること
-2. **グレースフルシャットダウン**: シグナルハンドリングを実装し、適切にコネクションをクローズすること
-3. **ヘルスチェック**: `/health` エンドポイントを実装し、監視可能にすること
+1. **OpenAPI ファースト**: 必ず OpenAPI スペックを更新してからコードを生成すること
+2. **生成コードの編集禁止**: generated/ ディレクトリ内のファイルは直接編集しない
+3. **グレースフルシャットダウン**: シグナルハンドリングを実装し、適切にコネクションをクローズすること
+4. **ヘルスチェック**: `/health` エンドポイントを実装し、監視可能にすること
+5. **ミドルウェア**: Gin のミドルウェアを活用してロギング、リカバリー、CORS を実装

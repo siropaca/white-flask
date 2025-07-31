@@ -1,0 +1,16 @@
+# Binary
+backend
+
+# Generated files
+generated/
+
+# OS files
+.DS_Store
+
+# IDE files
+.idea/
+.vscode/
+
+# Temporary files
+*.tmp
+*.log
