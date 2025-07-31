@@ -308,11 +308,11 @@ Tailwind CSS v4 では、カスタムユーティリティクラスを定義す�
 ```css
 /* globals.css */
 @theme {
-  --header-height: 64px;  /* カスタムプロパティとして定義 */
+  --header-height: 64px; /* カスタムプロパティとして定義 */
 }
 
 @utility h-header {
-  height: var(--header-height);  /* カスタムユーティリティクラス */
+  height: var(--header-height); /* カスタムユーティリティクラス */
 }
 ```
 
