@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	api "github.com/siropaca/white-flask/backend/generated"
 	"github.com/siropaca/white-flask/backend/handler"
@@ -16,6 +17,11 @@ func main() {
 	// Register OpenAPI handlers
 	api.RegisterHandlers(router, server)
 
+	// Print server URL
+	fmt.Println("Server is running at http://localhost:3003")
+
 	// Start server
-	router.Run(":3003")
+	if err := router.Run(":3003"); err != nil {
+		panic(err)
+	}
 }
