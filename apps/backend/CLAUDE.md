@@ -93,7 +93,7 @@ go build -ldflags="-s -w" -o backend
 2. **コード生成**
 
    ```bash
-   oapi-codegen -config oapi-codegen.yaml api/openapi.yaml
+   make generate
    ```
 
 3. **ハンドラー実装**
@@ -103,6 +103,7 @@ go build -ldflags="-s -w" -o backend
 4. **テスト**
    - 単体テストを作成
    - 統合テストを作成
+   - `make test` でテストを実行
 
 ## ディレクトリ構造
 
@@ -111,9 +112,28 @@ go build -ldflags="-s -w" -o backend
 - @/apps/backend/handler/ - ハンドラー実装
 - @/apps/backend/main.go - エントリーポイント
 
+## 開発コマンド
+
+Makefile で以下のコマンドが利用可能です：
+
+- `make install-tools` - 開発ツール（oapi-codegen）をインストール
+- `make run` - サーバーを起動
+- `make dev` - コード生成後にサーバーを起動
+- `make build` - バイナリをビルド
+- `make build-linux` - Linux 向けバイナリをビルド
+- `make build-opt` - 最適化されたバイナリをビルド
+- `make test` - テストを実行
+- `make generate` - OpenAPI スペックからコードを生成
+- `make lint` - リンティングを実行
+- `make mod` - Go モジュールを整理
+- `make deps` - 依存関係をダウンロード
+- `make update-deps` - 依存関係を更新
+- `make clean` - ビルド成果物を削除
+- `make validate-spec` - OpenAPI スペックを検証
+
 ## 重要な注意事項
 
-1. **OpenAPI ファースト**: 必ず OpenAPI スペックを更新してからコードを生成すること
+1. **OpenAPI ファースト**: 必ず OpenAPI スペックを更新してから `make generate` でコードを生成すること
 2. **生成コードの編集禁止**: generated/ ディレクトリ内のファイルは直接編集しない
 3. **グレースフルシャットダウン**: シグナルハンドリングを実装し、適切にコネクションをクローズすること
 4. **ヘルスチェック**: `/health` エンドポイントを実装し、監視可能にすること

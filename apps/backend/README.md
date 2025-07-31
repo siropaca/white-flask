@@ -16,22 +16,24 @@
 - Go 1.23.11 以上がインストールされていること
 - oapi-codegen CLI がインストールされていること
 
-```bash
-go install github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest
-```
-
 ### 初回セットアップ
 
-1. 依存関係をインストールします：
+1. 開発ツールをインストールします：
 
 ```bash
-go mod download
+make install-tools
 ```
 
-2. OpenAPI スペックからコードを生成します：
+2. 依存関係をインストールします：
 
 ```bash
-oapi-codegen -config oapi-codegen.yaml api/openapi.yaml
+make deps
+```
+
+3. OpenAPI スペックからコードを生成します：
+
+```bash
+make generate
 ```
 
 ## 開発
@@ -39,7 +41,13 @@ oapi-codegen -config oapi-codegen.yaml api/openapi.yaml
 ### サーバーの起動
 
 ```bash
-go run main.go
+make run
+```
+
+または、コード生成とサーバー起動を同時に行います：
+
+```bash
+make dev
 ```
 
 サーバーは http://localhost:3003 で起動します。
@@ -47,13 +55,45 @@ go run main.go
 ### ビルド
 
 ```bash
-go build -o backend
+make build
+```
+
+Linux 向けビルド：
+
+```bash
+make build-linux
+```
+
+最適化ビルド：
+
+```bash
+make build-opt
 ```
 
 ### テスト
 
 ```bash
-go test ./...
+make test
+```
+
+### リンティング
+
+```bash
+make lint
+```
+
+### 依存関係の管理
+
+依存関係を整理します：
+
+```bash
+make mod
+```
+
+依存関係を更新します：
+
+```bash
+make update-deps
 ```
 
 ## API 開発フロー
@@ -84,7 +124,7 @@ paths:
 OpenAPI スペックを更新したら、コードを再生成します：
 
 ```bash
-oapi-codegen -config oapi-codegen.yaml api/openapi.yaml
+make generate
 ```
 
 これにより `generated/api.gen.go` が更新されます。
@@ -114,8 +154,9 @@ curl http://localhost:3003/your-endpoint
 ## 注意事項
 
 - `generated/` ディレクトリ内のファイルは自動生成されるため、直接編集しないでください
-- OpenAPI スペックを変更した場合は、必ずコードを再生成してください
-- 新しい依存関係を追加した場合は `go mod tidy` を実行してください
+- OpenAPI スペックを変更した場合は、必ず `make generate` でコードを再生成してください
+- 新しい依存関係を追加した場合は `make mod` を実行してください
+- ビルド成果物を削除する場合は `make clean` を使用してください
 
 ## トラブルシューティング
 
@@ -130,8 +171,7 @@ which oapi-codegen
 2. OpenAPI スペックの構文が正しいか確認します：
 
 ```bash
-# OpenAPI スペックの検証ツールを使用
-npx @redocly/openapi-cli lint api/openapi.yaml
+make validate-spec
 ```
 
 ### ビルドエラーが発生する場合
@@ -145,7 +185,7 @@ go version
 2. 依存関係を更新します：
 
 ```bash
-go mod tidy
+make mod
 ```
 
 ## 参考リンク
